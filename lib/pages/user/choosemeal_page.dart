@@ -1,6 +1,5 @@
 // ignore_for_file: unused_local_variable, must_be_immutable, prefer_typing_uninitialized_variables
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colipid/pages/meal_model.dart';
 import 'package:colipid/pages/user/menudetail_page.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:string_similarity/string_similarity.dart';
-
 
 class ChooseMeal extends StatefulWidget {
   //const ChooseMeal({Key? key}) : super(key: key);
@@ -292,12 +290,11 @@ class _ChooseMealState extends State<ChooseMeal> {
 
                                 String plantype =
                                     snap.docs[0]['plantype'].toString();
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(
-                                        builder: (context) => MenuDetail(
-                                              plan: name,
-                                              plantype: plantype,
-                                            )));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => MenuDetail(
+                                          plan: name,
+                                          plantype: plantype,
+                                        )));
                               }),
                         )),
                   ),
@@ -326,15 +323,19 @@ class _ChooseMealState extends State<ChooseMeal> {
 
   //string similirity score (recommendation)
   Widget buildUserPreference() {
+    final ButtonStyle styles = ElevatedButton.styleFrom(
+        textStyle: const TextStyle(fontSize: 20),
+        backgroundColor: Color(0xcc3e97a9));
     return ElevatedButton(
+      style: styles,
       onPressed: () async {
         String texts = pref.text.toString();
-    
+
         final bestMatch = StringSimilarity.findBestMatch(texts, strTag);
         int index = bestMatch.bestMatchIndex;
-    
-        openDialog(planName[index].toString(),
-            bestMatch.bestMatch.target.toString());
+
+        openDialog(
+            planName[index].toString(), bestMatch.bestMatch.target.toString());
       },
       child: const Text(
         'GENERATE',
@@ -347,18 +348,20 @@ class _ChooseMealState extends State<ChooseMeal> {
   //for preference user in button design
   Widget buildPrefBtn() {
     return Container(
-        padding: const EdgeInsets.symmetric(),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         width: 400,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OverflowBar(
-               children: <Widget>[
+              children: <Widget>[
                 Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   IconButton(
-                    icon: Image.asset("images/chicken.png"),
-                    iconSize: 40,
+                    icon: Image.asset(
+                      "images/chicken.png",
+                      scale: 3,
+                    ),
                     highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'chicken+';
@@ -366,18 +369,22 @@ class _ChooseMealState extends State<ChooseMeal> {
                   ),
                   const Text('chicken'),
                   IconButton(
-                    icon: Image.asset("images/egg.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/egg.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'egg+';
                     },
                   ),
                   const Text('egg'),
                   IconButton(
-                    icon: Image.asset("images/watermelon.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/watermelon.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'watermelon+';
                     },
@@ -386,27 +393,33 @@ class _ChooseMealState extends State<ChooseMeal> {
                 ]),
                 Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   IconButton(
-                    icon: Image.asset("images/fish.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/fish.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'fish+';
                     },
                   ),
                   const Text('fish'),
                   IconButton(
-                    icon: Image.asset("images/apple.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/apple.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'apple+';
                     },
                   ),
                   const Text('apple'),
                   IconButton(
-                    icon: Image.asset("images/shrimp.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/shrimp.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'prawn+';
                     },
@@ -415,27 +428,33 @@ class _ChooseMealState extends State<ChooseMeal> {
                 ]),
                 Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   IconButton(
-                    icon: Image.asset("images/banana.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/banana.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'banana+';
                     },
                   ),
                   const Text('banana'),
                   IconButton(
-                    icon: Image.asset("images/bread.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/bread.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'bread+';
                     },
                   ),
                   const Text('bread'),
                   IconButton(
-                    icon: Image.asset("images/rice.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/rice.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'rice+';
                     },
@@ -444,27 +463,33 @@ class _ChooseMealState extends State<ChooseMeal> {
                 ]),
                 Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   IconButton(
-                    icon: Image.asset("images/cracker.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/cracker.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'cracker+';
                     },
                   ),
                   const Text('cracker'),
                   IconButton(
-                    icon: Image.asset("images/oat.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/oat.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'oat+';
                     },
                   ),
                   const Text('oat'),
                   IconButton(
-                    icon: Image.asset("images/pasta.png"),
-                    iconSize: 40,
-                    focusColor: Colors.blue,
+                    icon: Image.asset(
+                      "images/pasta.png",
+                      scale: 3,
+                    ),
+                    highlightColor: Colors.blue,
                     onPressed: () {
                       pref.text += 'pasta+';
                     },
@@ -500,11 +525,10 @@ class _ChooseMealState extends State<ChooseMeal> {
             icon: const Icon(Icons.folder),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => MenuDetail(
-                                plan: e.plan, plantype: e.plantype)));
+                  builder: (context) =>
+                      MenuDetail(plan: e.plan, plantype: e.plantype)));
             }),
       ));
-
 
   Future patientLike() => showDialog(
       context: context,
@@ -574,15 +598,17 @@ class _ChooseMealState extends State<ChooseMeal> {
                           // fullname: fullname, phone: phone, ic: ic);
 
                           //regPatient(user);
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content:
-                                  Text("Patient succesful added to the list")));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      "Patient succesful added to the list")));
                           //Navigator.of(context).pushReplacement(
                           //MaterialPageRoute(
                           //   builder: (context) => ChooseMeal()));
                         }
                       },
-                     style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.red)),
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(Colors.red)),
                       child: const Text(
                         "Submit",
                         style: TextStyle(color: Colors.white),
@@ -670,17 +696,16 @@ class _ChooseMealState extends State<ChooseMeal> {
               length: 2,
               child: Scaffold(
                 appBar: AppBar(
-                  bottom: TabBar(
-                    indicatorColor: Theme.of(context).primaryColor,
+                  bottom: const TabBar(
+                    labelColor: Color.fromARGB(255, 255, 255, 255),
+                    indicatorColor: Color.fromARGB(255, 255, 255, 255),
                     indicatorWeight: 3,
-                    unselectedLabelColor: const Color.fromARGB(255, 184, 183, 183),
-                    tabs: const [
+                    unselectedLabelColor: Color.fromARGB(255, 131, 131, 131),
+                    tabs: [
                       Text(
                         "Menu Plan",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "Recommendation",
@@ -718,10 +743,9 @@ class _ChooseMealState extends State<ChooseMeal> {
                                       'Something went wrong!: ${snapshot.error}');
                                 } else if (snapshot.hasData) {
                                   final users = snapshot.data!;
-                                  
+
                                   return ListView(
-                                      children:
-                                          users.map(buildMeals).toList());
+                                      children: users.map(buildMeals).toList());
                                 } else {
                                   return const Center(
                                       child: CircularProgressIndicator());
@@ -732,27 +756,26 @@ class _ChooseMealState extends State<ChooseMeal> {
                     ),
                   ),
                   Container(
-                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          buildPref(),
-                          const SizedBox(
-                            height: 40,
-                            child: Text(
-                              "Main Ingredient",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        buildPref(),
+                        const SizedBox(
+                          height: 40,
+                          child: Text(
+                            "Main Ingredient",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
                           ),
-                
-                          buildPrefBtn(),
-                          //buildPreferCheckBox(),
-                
-                          buildUserPreference(),
-                        ],
-                      
+                        ),
+
+                        buildPrefBtn(),
+                        //buildPreferCheckBox(),
+
+                        buildUserPreference(),
+                      ],
                     ),
                   )
                 ]),
