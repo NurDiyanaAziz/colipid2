@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "504972603200",
+    "firebase_url": "https://lipiddiary-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "lipiddiary",
+    "storage_bucket": "lipiddiary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504972603200:android:3c6cec4015d2091af3d4a5",
+        "android_client_info": {
+          "package_name": "com.example.colipid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504972603200-itkpkgj9cjng939gss31cvj76jtnvjpc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.colipid",
+            "certificate_hash": "58d1f5c62b7feb3aaada161484389c6367eb3cf7"
+          }
+        },
+        {
+          "client_id": "504972603200-97ihc5jgsoljkt270bo8p4uafbgqad15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB55RebqxbskOLysM9URQQRAcvpCzdll-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504972603200-97ihc5jgsoljkt270bo8p4uafbgqad15.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
