@@ -1,4 +1,5 @@
 import 'package:colipid/pages/login_page.dart';
+// ignore: unused_import
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,17 +33,17 @@ class _AdminProfileState extends State<AdminProfile> {
 
   Widget buttonLogout() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25),
+      padding: const EdgeInsets.symmetric(vertical: 25),
       width: double.infinity,
       child: ElevatedButton(
         
         onPressed: () async {
           logindata.setBool('login', true);
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginPageScreen()));
+              MaterialPageRoute(builder: (context) => const LoginPageScreen()));
         },
         
-        child: Text(
+        child: const Text(
           'LOGOUT',
           style: TextStyle(
               color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
@@ -53,13 +54,7 @@ class _AdminProfileState extends State<AdminProfile> {
 
   @override
   Widget build(BuildContext context) {
-    int index = 1;
 
-    final items = <Widget>[
-      Icon(Icons.file_open, size: 30),
-      Icon(Icons.home, size: 30),
-      Icon(Icons.person, size: 30),
-    ];
 
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -81,24 +76,24 @@ class _AdminProfileState extends State<AdminProfile> {
                 ],
               )),
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       'Admin Profile & Settings',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     buttonLogout(),
-                    SizedBox(height: 5),
-                    SizedBox(height: 40),
-                    SizedBox(height: 20),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 5),
+                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

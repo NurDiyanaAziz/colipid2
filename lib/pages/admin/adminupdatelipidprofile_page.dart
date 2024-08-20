@@ -1,16 +1,15 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colipid/pages/admin/dialogs.dart';
 import 'package:colipid/pages/lipid_model.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/standalone.dart' as tz;
 
 import 'adminpatientmenu_page.dart';
 
+// ignore: must_be_immutable
 class AdminUpdateLipidProfile extends StatefulWidget {
   //const AdminUpdateLipidProfile({Key? key}) : super(key: key);
   var myObject;
@@ -98,6 +97,7 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
           final action = await Dialogs.yesAbortDialog(
               context, 'Confirm Discard?', 'Are you sure?');
           if (action == DialogAction.yes) {
+            // ignore: unused_local_variable
             String ics = widget.myObject.toString();
             Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => AdminUpdatePatient(myObject: icc)));
@@ -190,34 +190,30 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 60,
-            child: TextField(
-              controller: dates,
-              keyboardType: TextInputType.name,
-              style: const TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon:
-                      Icon(Icons.calendar_today, color: Color(0x663e97a9)),
-                  hintText: 'Date',
-                  hintStyle: TextStyle(color: Colors.black38)),
-            ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            enabled: false,
+            controller: dates,
+            keyboardType: TextInputType.name,
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon:
+                    Icon(Icons.calendar_today, color: Color(0x663e97a9)),
+                hintText: 'Date',
+                hintStyle: TextStyle(color: Colors.black38)),
           ),
-        )
+        ),
       ],
     );
   }
@@ -226,33 +222,29 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 60,
-            child: TextField(
-              controller: times,
-              keyboardType: TextInputType.name,
-              style: const TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon: Icon(Icons.punch_clock, color: Color(0x663e97a9)),
-                  hintText: 'Time',
-                  hintStyle: TextStyle(color: Colors.black38)),
-            ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            enabled: false,
+            controller: times,
+            keyboardType: TextInputType.number,
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon: Icon(Icons.punch_clock, color: Color(0x663e97a9)),
+                hintText: 'Time',
+                hintStyle: TextStyle(color: Colors.black38)),
           ),
-        )
+        ),
       ],
     );
   }
@@ -261,33 +253,30 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 60,
-            child: TextField(
-              controller: drname,
-              keyboardType: TextInputType.name,
-              style: const TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon: Icon(Icons.people, color: Color(0x663e97a9)),
-                  hintText: 'Doctor name',
-                  hintStyle: TextStyle(color: Colors.black38)),
-            ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            enabled: false,
+            controller: drname,
+            keyboardType: TextInputType.name,
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon:
+                    Icon(Icons.person_pin_circle, color: Color(0x663e97a9)),
+                hintText: 'Doctor name',
+                hintStyle: TextStyle(color: Colors.black38)),
           ),
-        )
+        ),
       ],
     );
   }
@@ -296,39 +285,36 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 60,
-            child: TextField(
-              controller: hdl,
-              keyboardType: TextInputType.name,
-              style: const TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.only(top: 14),
-                prefixIcon:
-                    const Icon(Icons.bloodtype, color: Color(0x663e97a9)),
-                hintText: 'HDL',
-                hintStyle: const TextStyle(color: Colors.black38),
-                suffixIcon: IconButton(
-                  onPressed: hdl.clear,
-                  icon: const Icon(Icons.clear),
-                ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            controller: hdl,
+            keyboardType: TextInputType.number,
+            onTapOutside: (PointerDownEvent event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.only(top: 14),
+              prefixIcon: const Icon(Icons.bloodtype, color: Color(0x663e97a9)),
+              hintText: 'HDL',
+              hintStyle: const TextStyle(color: Colors.black38),
+              suffixIcon: IconButton(
+                onPressed: hdl.clear,
+                icon: const Icon(Icons.clear),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -337,39 +323,36 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 60,
-            child: TextField(
-              controller: tc,
-              keyboardType: TextInputType.name,
-              style: const TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.only(top: 14),
-                prefixIcon:
-                    const Icon(Icons.bloodtype, color: Color(0x663e97a9)),
-                hintText: 'Total Cholesterol',
-                hintStyle: const TextStyle(color: Colors.black38),
-                suffixIcon: IconButton(
-                  onPressed: tc.clear,
-                  icon: const Icon(Icons.clear),
-                ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            controller: tc,
+            keyboardType: TextInputType.number,
+            onTapOutside: (PointerDownEvent event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.only(top: 14),
+              prefixIcon: const Icon(Icons.bloodtype, color: Color(0x663e97a9)),
+              hintText: 'Total Cholesterol',
+              hintStyle: const TextStyle(color: Colors.black38),
+              suffixIcon: IconButton(
+                onPressed: tc.clear,
+                icon: const Icon(Icons.clear),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -378,38 +361,36 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 60,
-            child: TextField(
-              controller: ldl,
-              keyboardType: TextInputType.name,
-              style: TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14),
-                prefixIcon: Icon(Icons.bloodtype, color: Color(0x663e97a9)),
-                hintText: 'LDL',
-                hintStyle: TextStyle(color: Colors.black38),
-                suffixIcon: IconButton(
-                  onPressed: tc.clear,
-                  icon: Icon(Icons.clear),
-                ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            controller: ldl,
+            keyboardType: TextInputType.number,
+            onTapOutside: (PointerDownEvent event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.only(top: 14),
+              prefixIcon: const Icon(Icons.bloodtype, color: Color(0x663e97a9)),
+              hintText: 'LDL',
+              hintStyle: const TextStyle(color: Colors.black38),
+              suffixIcon: IconButton(
+                onPressed: tc.clear,
+                icon: const Icon(Icons.clear),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -418,38 +399,36 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 60,
-            child: TextField(
-              controller: trigly,
-              keyboardType: TextInputType.name,
-              style: TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14),
-                prefixIcon: Icon(Icons.people, color: Color(0x663e97a9)),
-                hintText: 'Trygliceride',
-                hintStyle: TextStyle(color: Colors.black38),
-                suffixIcon: IconButton(
-                  onPressed: tc.clear,
-                  icon: Icon(Icons.clear),
-                ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            controller: trigly,
+            keyboardType: TextInputType.number,
+            onTapOutside: (PointerDownEvent event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.only(top: 14),
+              prefixIcon: const Icon(Icons.bloodtype, color: Color(0x663e97a9)),
+              hintText: 'Triglycerides',
+              hintStyle: const TextStyle(color: Colors.black38),
+              suffixIcon: IconButton(
+                onPressed: tc.clear,
+                icon: const Icon(Icons.clear),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -458,43 +437,52 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 200,
-            child: TextField(
-              controller: comment,
-              textInputAction: TextInputAction.newline,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              style: TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon: Icon(Icons.people, color: Color(0x663e97a9)),
-                  hintText: 'Comment',
-                  hintStyle: TextStyle(color: Colors.black38)),
-            ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 200,
+          child: TextField(
+            controller: comment,
+            textInputAction: TextInputAction.newline,
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            onTapOutside: (PointerDownEvent event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon: Icon(Icons.message, color: Color(0x663e97a9)),
+                hintText: 'Comment',
+                hintStyle: TextStyle(color: Colors.black38)),
           ),
-        )
+        ),
       ],
+    );
+  }
+
+  Widget buildTitle(String text) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: AutoSizeText(
+        text,
+        minFontSize: 20,
+        maxFontSize: 25,
+        style: const TextStyle(color: Colors.black),
+      ),
     );
   }
 
   Widget buildSubmitBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15),
-      width: 100,
+      width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
           String tcStat = "", triglyStat = "", hdlStat = "", ldlcStat = "";
@@ -508,6 +496,7 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
                 .where("ic", isEqualTo: ics)
                 .get();
 
+            // ignore: unused_local_variable
             String id = snap.docs[0]['id'].toString();
             String name = drname.text;
             double hdls = double.parse(hdl.text);
@@ -582,7 +571,7 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
                 builder: (context) => AdminUpdatePatient(myObject: icc)));
           }
         },
-        child: Text(
+        child: const Text(
           'Submit',
           style: TextStyle(
               color: Colors.green, fontSize: 18, fontWeight: FontWeight.bold),
@@ -593,15 +582,28 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
 
   @override
   Widget build(BuildContext context) {
-    int index = 1;
-
-    final items = <Widget>[
-      Icon(Icons.file_open, size: 30),
-      Icon(Icons.home, size: 30),
-      Icon(Icons.person, size: 30),
-    ];
-
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 196, 161, 149),
+        elevation: 0.0,
+        titleSpacing: 10.0,
+        centerTitle: true,
+        title: const Text('Patient Lipid Profile'),
+        leading: InkWell(
+          onTap: () async {
+            final action = await Dialogs.yesAbortDialog(
+                context, 'Confirm Discard?', 'Are you sure?');
+            if (action == DialogAction.yes) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => AdminUpdatePatient(myObject: icc)));
+            }
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black54,
+          ),
+        ),
+      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Stack(
@@ -621,37 +623,40 @@ class _AdminUpdateLipidProfileState extends State<AdminUpdateLipidProfile> {
                 ],
               )),
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      'Patient Lipid Profile',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20),
-                    buildBackBtn(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
+                    buildTitle('Date'),
                     buildDate(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 15),
+                    buildTitle('Time'),
                     buildTime(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 15),
+                    buildTitle('Doctor In-Charge'),
                     buildDrName(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 15),
+                    buildTitle('Total Cholesterol'),
                     buildTotalC(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 15),
+                    buildTitle('HDL (high-density lipoprotein)'),
                     buildHdl(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 15),
+                    buildTitle('LDL (low-density lipoprotein)'),
                     buildLdl(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 15),
+                    buildTitle('Triglycerides'),
                     buildTrigly(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 15),
+                    buildTitle('Comment'),
                     buildComment(),
+                    const SizedBox(height: 15),
                     buildSubmitBtn(),
+                    const SizedBox(height: 5),
                   ],
                 ),
               ),

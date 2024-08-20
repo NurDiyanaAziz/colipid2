@@ -1,20 +1,17 @@
-import 'dart:math';
+// ignore_for_file: unused_local_variable
 
-import 'package:colipid/pages/patientlist_model.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'adminPatientMedicine_page.dart';
 import 'adminaddpatientinfo_page.dart';
-import 'adminhome_page.dart';
 import 'adminmain.dart';
-import 'adminprofile_page.dart';
 import 'adminupdatelipidprofile_page.dart';
 import 'adminviewreport_page.dart';
 import 'dialogs.dart';
 
+// ignore: must_be_immutable
 class AdminUpdatePatient extends StatefulWidget {
   //const AdminUpdatePatient( {Key? key}) : super(key: key);
   var myObject;
@@ -51,22 +48,22 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
 
   Widget buildBackBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       height: 70,
       width: 100,
       child: ElevatedButton(
-       
         onPressed: () async {
           final action = await Dialogs.yesAbortDialog(
               context, 'Confirm Discard?', 'Are you sure?');
           if (action == DialogAction.yes) {
+            // ignore: duplicate_ignore
+            // ignore: unused_local_variable
             String ics = widget.myObject.toString();
             String ic = widget.myObject.toString();
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => AdminMainScreen()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const AdminMainScreen()));
           }
         },
-       
         child: Text(
           'Back',
           style: TextStyle(
@@ -80,20 +77,19 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
 
   Widget buildViewReportBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25),
       width: double.infinity,
       child: ElevatedButton(
-
         onPressed: () async {
           String ic = widget.myObject.toString();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => AdminViewReportPatient(myObject: ic)));
         },
-      
-        child: Text(
-          'View Report',
+        child: const AutoSizeText(
+          'View',
+          minFontSize: 16,
+          maxFontSize: double.infinity,
           style: TextStyle(
-              color: Color(0xff3e97a9),
+              color: Color.fromARGB(255, 134, 98, 86),
               fontSize: 18,
               fontWeight: FontWeight.bold),
         ),
@@ -103,21 +99,19 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
 
   Widget buildUpdateLipidBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25),
       width: double.infinity,
       child: ElevatedButton(
-      
         onPressed: () async {
           String ic = widget.myObject.toString();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => AdminUpdateLipidProfile(myObject: ic)));
         },
-      
-        child: Text(
-          'Update Patient Lipid Profile',
+        child: const AutoSizeText(
+          'Update',
+          minFontSize: 16,
+          maxFontSize: double.infinity,
           style: TextStyle(
-              color: Color(0xff3e97a9),
-              fontSize: 18,
+              color: Color.fromARGB(255, 134, 98, 86),
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -126,21 +120,19 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
 
   Widget buildInputPatientInfoBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25),
       width: double.infinity,
       child: ElevatedButton(
-       
         onPressed: () async {
           String ic = widget.myObject.toString();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => AdminAddPatientInfo(myObject: ic)));
         },
-     
-        child: Text(
-          'Update Patient Profile',
+        child: const AutoSizeText(
+          'Update',
+          minFontSize: 16,
+          maxFontSize: double.infinity,
           style: TextStyle(
-              color: Color(0xff3e97a9),
-              fontSize: 18,
+              color: Color.fromARGB(255, 134, 98, 86),
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -149,21 +141,19 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
 
   Widget buildInputMedPatientBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25),
       width: double.infinity,
       child: ElevatedButton(
-       
         onPressed: () async {
           String ic = widget.myObject.toString();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => AdminPatientMedicine(myObject: ic)));
         },
-     
-        child: Text(
-          'Update Patient Medicine',
+        child: const AutoSizeText(
+          'Update',
+          minFontSize: 16,
+          maxFontSize: double.infinity,
           style: TextStyle(
-              color: Color(0xff3e97a9),
-              fontSize: 18,
+              color: Color.fromARGB(255, 134, 98, 86),
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -172,21 +162,19 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
 
   Widget buildSubmitBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15),
-      width: 100,
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      width: double.infinity,
       child: ElevatedButton(
-      
         onPressed: () async {
           final action = await Dialogs.yesAbortDialog(
               context, 'Confirm Submit?', 'Are you sure?');
           if (action == DialogAction.yes) {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => AdminMainScreen()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const AdminMainScreen()));
           }
         },
-      
-        child: Text(
-          'Finish',
+        child: const Text(
+          'Finish Treatment',
           style: TextStyle(
               color: Colors.green, fontSize: 18, fontWeight: FontWeight.bold),
         ),
@@ -194,19 +182,39 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
     );
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     int index = 1;
 
     final items = <Widget>[
-      Icon(Icons.file_open, size: 30),
-      Icon(Icons.home, size: 30),
-      Icon(Icons.person, size: 30),
+      const Icon(Icons.file_open, size: 30),
+      const Icon(Icons.home, size: 30),
+      const Icon(Icons.person, size: 30),
     ];
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 196, 161, 149),
+        elevation: 0.0,
+        titleSpacing: 10.0,
+        centerTitle: true,
+        title: const Text('Patient Menu'),
+        leading: InkWell(
+          onTap: () async {
+            final action = await Dialogs.yesAbortDialog(
+                context, 'Confirm Discard?', 'Are you sure?');
+            if (action == DialogAction.yes) {
+              
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const AdminMainScreen()));
+            }
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black54,
+          ),
+        ),
+      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Stack(
@@ -226,30 +234,260 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                 ],
               )),
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Patient Info Menu',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20),
-                    buildBackBtn(),
-                    SizedBox(height: 20),
-                    buildInputPatientInfoBtn(),
-                    SizedBox(height: 5),
-                    buildUpdateLipidBtn(),
-                    SizedBox(height: 5),
-                    buildInputMedPatientBtn(),
-                    SizedBox(height: 5),
-                    buildViewReportBtn(),
-                    SizedBox(height: 20),
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
                     buildSubmitBtn(),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 134, 98, 86),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      height: 250,
+                      width: double.maxFinite,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: AutoSizeText(
+                                      'Update Patient Profile',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  ConstrainedBox(
+                                      constraints: const BoxConstraints(
+                                        minWidth: 60.0,
+                                        maxWidth: 150.0,
+                                        minHeight: 30.0,
+                                        maxHeight: 100.0,
+                                      ),
+                                      //SET max width
+                                      child: const AutoSizeText(
+                                        'Manage patient latest body information here',
+                                        style: TextStyle(
+                                            fontSize: 18, color: Colors.white),
+                                        overflow: TextOverflow.visible,
+                                      ))
+                                ],
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Image.asset(
+                                  'images/admin4.png',
+                                  scale: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            child: buildInputPatientInfoBtn(),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 134, 98, 86),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      height: 250,
+                      width: double.maxFinite,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: AutoSizeText(
+                                      'Update Lipid Result',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  ConstrainedBox(
+                                      constraints: const BoxConstraints(
+                                        minWidth: 60.0,
+                                        maxWidth: 150.0,
+                                        minHeight: 30.0,
+                                        maxHeight: 100.0,
+                                      ),
+                                      //SET max width
+                                      child: const AutoSizeText(
+                                        'Manage lipid level of the patient',
+                                        style: TextStyle(
+                                            fontSize: 18, color: Colors.white),
+                                        overflow: TextOverflow.visible,
+                                      ))
+                                ],
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Image.asset(
+                                  'images/admin2.png',
+                                  scale: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            child: buildUpdateLipidBtn(),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 134, 98, 86),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      height: 250,
+                      width: double.maxFinite,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: AutoSizeText(
+                                      'Update Medicine',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  ConstrainedBox(
+                                      constraints: const BoxConstraints(
+                                        minWidth: 60.0,
+                                        maxWidth: 150.0,
+                                        minHeight: 30.0,
+                                        maxHeight: 100.0,
+                                      ),
+                                      //SET max width
+                                      child: const AutoSizeText(
+                                        'Manage medicine for patient',
+                                        style: TextStyle(
+                                            fontSize: 18, color: Colors.white),
+                                        overflow: TextOverflow.visible,
+                                      ))
+                                ],
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Image.asset(
+                                  'images/admin3.png',
+                                  scale: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            child: buildInputMedPatientBtn(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 134, 98, 86),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      height: 250,
+                      width: double.maxFinite,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: AutoSizeText(
+                                      'Patient Health Report',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  ConstrainedBox(
+                                      constraints: const BoxConstraints(
+                                        minWidth: 60.0,
+                                        maxWidth: 150.0,
+                                        minHeight: 30.0,
+                                        maxHeight: 100.0,
+                                      ),
+                                      //SET max width
+                                      child: const AutoSizeText(
+                                        'View patient lipid level by year',
+                                        style: TextStyle(
+                                            fontSize: 18, color: Colors.white),
+                                        overflow: TextOverflow.visible,
+                                      ))
+                                ],
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Image.asset(
+                                  'images/admin1.png',
+                                  scale: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            child: buildViewReportBtn(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
                   ],
                 ),
               ),

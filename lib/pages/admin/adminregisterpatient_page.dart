@@ -3,16 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colipid/pages/lipid_model.dart';
 import 'package:colipid/pages/patientlist_model.dart';
 import 'package:colipid/pages/user_model.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-import 'adminhome_page.dart';
 import 'adminmain.dart';
-import 'adminpatientmenu_page.dart';
 
+// ignore: must_be_immutable
 class AdminRegisterPatient extends StatefulWidget {
   //const AdminRegisterPatient({Key? key}) : super(key: key);
   var myObject;
@@ -21,11 +18,15 @@ class AdminRegisterPatient extends StatefulWidget {
   _AdminRegisterPatientState createState() => _AdminRegisterPatientState();
 }
 
+enum SingingCharacters { Male, Female }
+
 class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
   int index = 1;
   final name = TextEditingController();
   final phones = TextEditingController();
   final ics = TextEditingController();
+
+  SingingCharacters? _characters = SingingCharacters.Male;
 
   void initState() {
     super.initState();
@@ -78,8 +79,8 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                const BoxShadow(
+              boxShadow: const [
+                BoxShadow(
                     color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
               ]),
           height: 60,
@@ -94,6 +95,52 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
                 hintStyle: TextStyle(color: Colors.black38)),
           ),
         )
+      ],
+    );
+  }
+
+  Widget buildGender() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Gender',
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
+        ListTile(
+          title: const Text('Male',
+              style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600)),
+          leading: Radio<SingingCharacters>(
+            value: SingingCharacters.Male,
+            groupValue: _characters,
+            onChanged: (SingingCharacters? value) {
+              setState(() {
+                _characters = value;
+              });
+            },
+          ),
+        ),
+        ListTile(
+          title: const Text('Female',
+              style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600)),
+          leading: Radio<SingingCharacters>(
+            value: SingingCharacters.Female,
+            groupValue: _characters,
+            onChanged: (SingingCharacters? value) {
+              setState(() {
+                _characters = value;
+              });
+            },
+          ),
+        ),
       ],
     );
   }
@@ -113,8 +160,8 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                const BoxShadow(
+              boxShadow: const [
+                BoxShadow(
                     color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
               ]),
           height: 60,
@@ -149,8 +196,8 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                const BoxShadow(
+              boxShadow: const [
+                BoxShadow(
                     color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
               ]),
           height: 60,
@@ -189,8 +236,9 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
 
           //if(year <= )
 
-          var dobs = day + "/" + month + "/" + "19" + year;
-          var fullyear = "19" + year;
+          // ignore: unused_local_variable
+          var dobs = "$day/$month/19$year";
+          var fullyear = "19$year";
 
           DateTime birthday =
               DateTime(int.parse(fullyear), int.parse(month), int.parse(day));
@@ -221,14 +269,6 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
 
   @override
   Widget build(BuildContext context) {
-    int index = 1;
-
-    final items = <Widget>[
-      const Icon(Icons.file_open, size: 30),
-      const Icon(Icons.home, size: 30),
-      const Icon(Icons.person, size: 30),
-    ];
-
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,

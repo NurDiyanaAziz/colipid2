@@ -3,13 +3,11 @@ import 'package:colipid/pages/admin/adminmain.dart';
 import 'package:colipid/pages/patientlist_model.dart';
 import 'package:colipid/pages/user_model.dart';
 import 'package:colipid/pages/user/userhome_page.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:string_similarity/string_similarity.dart';
 
 import 'adminaddstaff_page.dart';
 import 'adminprofile_page.dart';
@@ -79,8 +77,8 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const UserHomePage()));
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Only registered patient")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Only registered patient")));
       }
 
       //context.read<AuthService>().login(snap.docs[18]['phone']);
@@ -170,7 +168,9 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
         child: const Text(
           'REGISTER PATIENT',
           style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              color: Color.fromARGB(255, 134, 98, 86),
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -306,15 +306,19 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const TextField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20),
-                    decoration: InputDecoration(
-                        border: InputBorder.none, hintText: 'Manage Patient'),
+                  const Text(
+                    "Manage Patient",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 22),
                   ),
                   SizedBox(
                     width: 320.0,
                     child: ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                              Color.fromARGB(255, 197, 167, 157))),
                       onPressed: () async {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) =>
@@ -322,13 +326,19 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
                       },
                       child: const Text(
                         "Menu",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18),
                       ),
                     ),
                   ),
                   SizedBox(
                     width: 320.0,
                     child: ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                              Color.fromARGB(255, 197, 167, 157))),
                       onPressed: () async {
                         final action = await Dialogs.yesAbortDialog(
                             context,
@@ -340,18 +350,23 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
                               .doc(e.id)
                               .delete()
                               .then((value) {
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                content: Text(
-                                    "Patient succesful deleted from the list")));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "Patient succesful deleted from the list")));
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) => const AdminMainScreen()));
+                                    builder: (context) =>
+                                        const AdminMainScreen()));
                           });
                         }
                       },
                       child: const Text(
                         "Done Session",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18),
                       ),
                       //color: Colors.red[400],
                     ),
@@ -413,7 +428,9 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
                   SizedBox(
                     width: 320.0,
                     child: ElevatedButton(
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              WidgetStateProperty.all<Color>(Colors.red)),
                       onPressed: () async {
                         final checkIC = checkic.text;
                         //final user = UserModel(ic: checkIC);
@@ -433,16 +450,19 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
                               fullname: fullname, phone: phone, ic: ic);
 
                           regPatient(user);
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content:
-                                  Text("Patient succesful added to the list")));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      "Patient succesful added to the list")));
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => const AdminMainScreen()));
+                                  builder: (context) =>
+                                      const AdminMainScreen()));
                         } else {
                           //not exists
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text("Patient not registered yet")));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Patient not registered yet")));
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (context) =>
@@ -453,7 +473,6 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
                         "Submit",
                         style: TextStyle(color: Colors.white),
                       ),
-                      
                     ),
                   )
                 ],
@@ -471,19 +490,10 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
           .map((doc) => PatientListModel.fromJson(doc.data()))
           .toList());
 
-  @override
   int index = 1;
 
   @override
   Widget build(BuildContext context) {
-    int index = 1;
-
-    final items = <Widget>[
-      const Icon(Icons.file_open, size: 30),
-      const Icon(Icons.home, size: 30),
-      const Icon(Icons.person, size: 30),
-    ];
-
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -505,14 +515,15 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
               )),
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Text(
                       'Admin Homepage',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 134, 98, 86),
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),
@@ -522,7 +533,7 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
                     const Text(
                       'List of Patient-In-Waiting',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 134, 98, 86),
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
@@ -540,7 +551,8 @@ class _AdminHomePageScreenState extends State<AdminHomePageScreen> {
                               return ListView(
                                   children: users.map(buildUser).toList());
                             } else {
-                              return const Center(child: CircularProgressIndicator());
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             }
                           }),
                     ),

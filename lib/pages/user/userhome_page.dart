@@ -23,7 +23,6 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
-
   int index = 2;
   late String name;
   late String weight;
@@ -464,7 +463,7 @@ class _UserHomePageState extends State<UserHomePage> {
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                'Hip-Waist Ratio (HWR) : $whratiostat',
+                                'Waist-Hip Ratio (WHR) : $whratiostat',
                                 style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w400,
