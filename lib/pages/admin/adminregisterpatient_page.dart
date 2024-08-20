@@ -26,13 +26,14 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
   final phones = TextEditingController();
   final ics = TextEditingController();
 
-  SingingCharacters? _characters = SingingCharacters.Male;
-
   void initState() {
     super.initState();
     fetchUserData();
   }
 
+  SingingCharacters? _characters = SingingCharacters.Male;
+
+  late String g = "";
   late String icc = "";
   void fetchUserData() {
     // do something
@@ -120,6 +121,7 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
             groupValue: _characters,
             onChanged: (SingingCharacters? value) {
               setState(() {
+                g = value.toString().substring(18);
                 _characters = value;
               });
             },
@@ -136,6 +138,7 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
             groupValue: _characters,
             onChanged: (SingingCharacters? value) {
               setState(() {
+                g = value.toString().substring(18);
                 _characters = value;
               });
             },
@@ -228,6 +231,8 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
           final phone = phones.text;
           final ic = ics.text;
 
+          String gend = _characters.toString().substring(18);
+
           // do something
 
           var year = ic.substring(0, 2);
@@ -246,7 +251,11 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
           ages = AgeCalculator.age(birthday);
 
           final user = UserModel(
-              fullname: fullname, phone: phone, ic: ic, age: ages.toString());
+              fullname: fullname,
+              phone: phone,
+              ic: ic,
+              age: ages.toString(),
+              gender: gend);
           final existuser =
               PatientListModel(fullname: fullname, phone: phone, ic: ic);
           //final lipid = LipidModel(ic: ic);
@@ -257,7 +266,7 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
               MaterialPageRoute(builder: (context) => const AdminMainScreen()));
         },
         child: Text(
-          'Submit',
+          'Submit ',
           style: TextStyle(
               color: Colors.green[400],
               fontSize: 18,
@@ -307,11 +316,14 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
                     const SizedBox(height: 50),
                     buildName(),
                     const SizedBox(height: 20),
+                    buildGender(),
+                    const SizedBox(height: 20),
                     buildIC(),
                     const SizedBox(height: 20),
                     buildPhoneNumber(),
                     const SizedBox(height: 20),
                     buildSubmitBtn(),
+                    Text(g),
                   ],
                 ),
               ),

@@ -105,6 +105,9 @@ class UserModel {
     };
   }
 
-  static UserModel fromJson(Map<String, dynamic> json) =>
-      UserModel(id: json['id'], fullname: json['fullname'], ic: json['ic']);
+  static UserModel fromJson(Map<String, dynamic> json) => UserModel(
+      id: json['id'],
+      fullname: json['fullname'],
+      ic: json['ic'],
+      gender: json['gender']);
 }

@@ -389,7 +389,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
               'dob': dob.text,
               'allergic': aller,
               'bmi': bmi,
-              'gender': gend,
+              //'gender': gend,
               'bmistatus': bmistat,
               'age': ages,
               'height': heights,
