@@ -1,5 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:colipid/pages/patientlist_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +25,7 @@ enum SingingCharacters { Male, Female }
 
 class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
   int index = 1;
+  // ignore: unused_field
   String _dropdownValue = "";
   List items = [
     'Choose',
@@ -38,7 +39,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
 
   SingingCharacters? _characters = SingingCharacters.Male;
   SingingCharacter? _character = SingingCharacter.No;
-  String dropdownValue = 'Sedentary';
+  String dropdownValue = 'Sedentary-(little or no exercise)';
 
   final name = TextEditingController();
   final phone = TextEditingController();
@@ -49,9 +50,13 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
   final waist = TextEditingController();
   final hip = TextEditingController();
   final age = TextEditingController();
+  final detailAllergy = TextEditingController();
   double bmi = 0.0;
+  double heightM = 0.0;
   String bmistat = '';
   String? hipwaistratio = '';
+  late bool _validate = false;
+  bool _showTextField = false;
 
   void fetchUserData() async {
     // do something
@@ -105,7 +110,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
             child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             height: 70,
             width: 100,
             child: ElevatedButton(
@@ -140,25 +145,23 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-                padding: const EdgeInsets.all(15),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 6,
-                          offset: Offset(0, 2))
-                    ]),
-                height: 60,
-                child: Text(
-                  widget.myObject.toString(),
-                  style: TextStyle(fontSize: 20),
-                )))
+        Container(
+            padding: const EdgeInsets.all(15),
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 6,
+                      offset: Offset(0, 2))
+                ]),
+            height: 60,
+            child: Text(
+              widget.myObject.toString(),
+              style: const TextStyle(fontSize: 20),
+            ))
       ],
     );
   }
@@ -167,33 +170,32 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 60,
-            child: TextField(
-              controller: name,
-              keyboardType: TextInputType.name,
-              style: TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon: Icon(Icons.people, color: Color(0x663e97a9)),
-                  hintText: 'Name',
-                  hintStyle: TextStyle(color: Colors.black38)),
-            ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            enabled: false,
+            controller: name,
+            keyboardType: TextInputType.name,
+            onTapOutside: (PointerDownEvent event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon: Icon(Icons.people, color: Color(0x663e97a9)),
+                hintText: 'Name',
+                hintStyle: TextStyle(color: Colors.black38)),
           ),
-        )
+        ),
       ],
     );
   }
@@ -202,34 +204,32 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 2))
-                ]),
-            height: 60,
-            child: TextField(
-              controller: phone,
-              keyboardType: TextInputType.name,
-              style: TextStyle(color: Colors.black87, fontSize: 20),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon:
-                      Icon(Icons.phone_android, color: Color(0x663e97a9)),
-                  hintText: 'Phone',
-                  hintStyle: TextStyle(color: Colors.black38)),
-            ),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            controller: phone,
+            keyboardType: TextInputType.number,
+            onTapOutside: (PointerDownEvent event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon: Icon(Icons.phone_android, color: Color(0x663e97a9)),
+                hintText: 'Phone',
+                hintStyle: TextStyle(color: Colors.black38)),
+            maxLength: 11,
           ),
-        )
+        ),
       ],
     );
   }
@@ -238,33 +238,30 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 6,
-                        offset: Offset(0, 2))
-                  ]),
-              height: 60,
-              child: TextField(
-                controller: dob,
-                keyboardType: TextInputType.name,
-                style: TextStyle(color: Colors.black87),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 14),
-                    prefixIcon:
-                        Icon(Icons.calendar_month, color: Color(0x663e97a9)),
-                    hintText: 'Date of Birth',
-                    hintStyle: TextStyle(color: Colors.black38)),
-              ),
-            ))
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            enabled: false,
+            controller: dob,
+            keyboardType: TextInputType.name,
+            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14),
+              prefixIcon: Icon(Icons.calendar_month, color: Color(0x663e97a9)),
+              hintText: 'Date of Birth',
+              hintStyle: TextStyle(color: Colors.black38),
+            ),
+          ),
+        )
       ],
     );
   }
@@ -273,43 +270,43 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 6,
-                        offset: Offset(0, 2))
-                  ]),
-              height: 60,
-              child: TextField(
-                controller: age,
-                keyboardType: TextInputType.name,
-                style: TextStyle(color: Colors.black87),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 14),
-                    prefixIcon:
-                        Icon(Icons.calendar_month, color: Color(0x663e97a9)),
-                    hintText: 'Age',
-                    hintStyle: TextStyle(color: Colors.black38)),
-              ),
-            ))
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
+          height: 60,
+          child: TextField(
+            enabled: false,
+            controller: age,
+            keyboardType: TextInputType.name,
+            style: const TextStyle(color: Colors.black87, fontSize: 18),
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon:
+                    Icon(Icons.calendar_month, color: Color(0x663e97a9)),
+                hintText: 'Age',
+                hintStyle: TextStyle(color: Colors.black38)),
+          ),
+        )
       ],
     );
   }
 
   Widget buildSubmitBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15),
-      width: 100,
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
+          setState(() {
+            _validate = waist.text.isEmpty;
+          });
           var now = DateTime.now();
           var formatterDate = DateFormat('dd/MM/yyyy');
           var formatterTime = DateFormat('HH:mm');
@@ -332,10 +329,12 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
             double waists = double.parse(waist.text);
             double hips = double.parse(hip.text);
             String active = dropdownValue.toString();
-            String gend = _characters.toString().substring(18);
+            String gend = snap.docs[0]['gender'].toString();
+            //String gend = _characters.toString().substring(18);
             String aller = _character.toString().substring(17);
 
-            bmi = weights / (heights * heights);
+            heightM = heights / 100;
+            bmi = weights / (heightM * heightM);
             if (bmi < 18.5) {
               bmistat = "underweight";
             } else if (bmi >= 18.5 && bmi <= 24.9) {
@@ -372,12 +371,11 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
               bmi: bmi,
               bmiStatus: bmistat,
               weight: weights,
-              height: heights,
+              height: heightM,
               hip: hips,
               waist: waists,
               ratio: whratio,
               ratiostat: hipwaistratio,
-              gender: gend,
             );
             inputBody(bodyprofile);
 
@@ -389,10 +387,9 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
               'dob': dob.text,
               'allergic': aller,
               'bmi': bmi,
-              //'gender': gend,
               'bmistatus': bmistat,
               'age': ages,
-              'height': heights,
+              'height': heightM,
               'weight': weights,
               'waist': waists,
               'hip': hips,
@@ -425,7 +422,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
                 builder: (context) => AdminUpdatePatient(myObject: icc)));
           }
         },
-        child: Text(
+        child: const Text(
           'Submit',
           style: TextStyle(
               color: Colors.green, fontSize: 18, fontWeight: FontWeight.bold),
@@ -457,6 +454,9 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
             child: TextField(
               controller: weight,
               keyboardType: TextInputType.number,
+              onTapOutside: (PointerDownEvent event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               style: const TextStyle(color: Colors.black87),
               decoration: const InputDecoration(
                   border: InputBorder.none,
@@ -487,13 +487,16 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
                   child: TextField(
                     controller: height,
                     keyboardType: TextInputType.number,
+                    onTapOutside: (PointerDownEvent event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
                     style: const TextStyle(color: Colors.black87),
                     decoration: const InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.only(top: 14),
                         prefixIcon:
                             Icon(Icons.height, color: Color(0x663e97a9)),
-                        hintText: 'Height in meter',
+                        hintText: 'Height in cm',
                         hintStyle: TextStyle(color: Colors.black38)),
                   ),
                 )))
@@ -523,12 +526,17 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
             child: TextField(
               controller: waist,
               keyboardType: TextInputType.number,
+              onTapOutside: (PointerDownEvent event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               style: const TextStyle(color: Colors.black87),
-              decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14, left: 20),
-                  hintText: 'Waist in cm',
-                  hintStyle: TextStyle(color: Colors.black38)),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.only(top: 14, left: 20),
+                hintText: 'Waist in cm',
+                hintStyle: const TextStyle(color: Colors.black38),
+                errorText: _validate ? "Value Can't Be Empty" : null,
+              ),
             ),
           ),
         )),
@@ -551,7 +559,10 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
                   child: TextField(
                     controller: hip,
                     keyboardType: TextInputType.number,
-                    style: TextStyle(color: Colors.black87),
+                    onTapOutside: (PointerDownEvent event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    style: const TextStyle(color: Colors.black87),
                     decoration: const InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.only(left: 20),
@@ -575,12 +586,12 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Gender',
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         ListTile(
           title: const Text('Male',
               style: TextStyle(
@@ -621,19 +632,18 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Have allergic?',
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        const Text(
+          'Have any food allergy?',
+          style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         ListTile(
           title: const Text(
             'No',
             style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.white,
-                fontWeight: FontWeight.w600),
+              fontSize: 20.0,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
           ),
           leading: Radio<SingingCharacter>(
             value: SingingCharacter.No,
@@ -641,6 +651,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
             onChanged: (SingingCharacter? value) {
               setState(() {
                 _character = value;
+                _showTextField = false;
               });
             },
           ),
@@ -649,9 +660,9 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
           title: const Text(
             'Yes',
             style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.white,
-                fontWeight: FontWeight.w600),
+              fontSize: 20.0,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
           ),
           leading: Radio<SingingCharacter>(
             value: SingingCharacter.Yes,
@@ -659,10 +670,36 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
             onChanged: (SingingCharacter? value) {
               setState(() {
                 _character = value;
+                _showTextField = true;
               });
             },
           ),
         ),
+        if (_showTextField)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: TextField(
+              controller: detailAllergy,
+              onTapOutside: (PointerDownEvent event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Color.fromARGB(255, 255, 255, 255),
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.black),
+                ),
+                labelText: 'Please specify the allergy',
+                labelStyle: TextStyle(color: Colors.black, fontSize: 20),
+                hintStyle: const TextStyle(
+                  color: Colors.black, // Set the hint text color to black
+                ),
+              ),
+              style: const TextStyle(
+                  color: Colors.black, fontSize: 20 // Set text color to black
+                  ),
+            ),
+          ),
       ],
     );
   }
@@ -671,50 +708,84 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'How Active Are You',
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Container(
             padding: const EdgeInsets.all(15.0),
-            width: 200,
+            width: double.infinity,
             alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.black26,
                       blurRadius: 6,
                       offset: Offset(0, 2))
                 ]),
-            height: 80,
+            height: 90,
             child: DropdownButton<String>(
               value: dropdownValue,
               icon: const Icon(Icons.arrow_downward),
-              elevation: 16,
+              isExpanded: true,
+              elevation: 2,
               style: const TextStyle(
-                  color: Color.fromARGB(255, 92, 57, 4), fontSize: 18),
-              underline: Container(
-                height: 2,
-                color: Color.fromARGB(255, 128, 101, 14),
-              ),
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  fontSize: 18,
+                  letterSpacing: 1,
+                  overflow: TextOverflow.visible),
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue!;
                 });
               },
-              items: <String>['Sedentary', 'Moderately Active', 'Active']
-                  .map<DropdownMenuItem<String>>((String value) {
+              items: <String>[
+                'Sedentary-(little or no exercise)',
+                'Lightly Active-(light exercise/sports 1-3 days/week)',
+                'Moderately Active-(moderate exercise/sports 3-5 days/week)',
+                'Very Active-(hard exercise/sports 6-7 days a week)'
+              ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: Flexible(
+                    child: Text(
+                      value,
+                      overflow: TextOverflow
+                          .visible, // Ensures the text will be truncated if it overflows
+                      softWrap:
+                          true, // Prevents text from wrapping to the next line
+                      style: TextStyle(
+                        color: value == dropdownValue
+                            ? const Color.fromARGB(255, 134, 98,
+                                86) // Highlight selected value with blue color
+                            : Colors
+                                .black, // Normal color for non-selected items
+                        fontWeight: value == dropdownValue
+                            ? FontWeight.bold // Bold the selected item
+                            : FontWeight
+                                .normal, // Normal weight for non-selected items
+                      ),
+                    ),
+                  ),
                 );
               }).toList(),
             ))
       ],
+    );
+  }
+
+  Widget buildTitle(String text) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: AutoSizeText(
+        text,
+        minFontSize: 20,
+        maxFontSize: 25,
+        style: const TextStyle(color: Colors.black),
+      ),
     );
   }
 
@@ -723,6 +794,27 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 196, 161, 149),
+        elevation: 0.0,
+        titleSpacing: 10.0,
+        centerTitle: true,
+        title: const Text('Patient Information'),
+        leading: InkWell(
+          onTap: () async {
+            final action = await Dialogs.yesAbortDialog(
+                context, 'Confirm Discard?', 'Are you sure?');
+            if (action == DialogAction.yes) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => AdminUpdatePatient(myObject: icc)));
+            }
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black54,
+          ),
+        ),
+      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Stack(
@@ -742,35 +834,37 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
                 ],
               )),
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      'Patient Information',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 5),
-                    buildBack(),
-                    SizedBox(height: 30),
+                    buildTitle("IC"),
                     buildID(),
+                    const SizedBox(height: 15),
+                    buildTitle("Name"),
                     buildName(),
+                    const SizedBox(height: 15),
+                    buildTitle("Phone Number"),
                     buildPhone(),
+                    const SizedBox(height: 15),
+                    buildTitle("Date of Birth"),
                     buildDateBirth(),
+                    const SizedBox(height: 15),
+                    buildTitle("Age"),
                     buildAge(),
+                    const SizedBox(height: 15),
+                    buildTitle("Weight(kg) and Height(cm)"),
                     buildWeightHeight(),
+                    const SizedBox(height: 15),
+                    buildTitle("Waist and Hip"),
                     buildWaistHip(),
-                    SizedBox(height: 20),
-                    buildGender(),
-                    SizedBox(height: 20),
-                    buildAllergic(),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 20),
                     buildActiveType(),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
+                    buildAllergic(),
+                    const SizedBox(height: 15),
                     buildSubmitBtn()
                   ],
                 ),

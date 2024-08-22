@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:colipid/pages/admin/dialogs.dart';
 import 'package:colipid/pages/lipid_model.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

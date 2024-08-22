@@ -758,8 +758,12 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
         centerTitle: true,
         title: const Text('Update information'),
         leading: InkWell(
-          onTap: () {
-            Navigator.pop(context);
+          onTap: () async {
+            final action = await Dialogs.yesAbortDialog(
+                context, 'Confirm Discard?', 'Are you sure?');
+            if (action == DialogAction.yes) {
+              Navigator.pop(context);
+            }
           },
           child: const Icon(
             Icons.arrow_back_ios,
