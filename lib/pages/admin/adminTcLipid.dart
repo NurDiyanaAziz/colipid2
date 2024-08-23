@@ -9,43 +9,55 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 // ignore: must_be_immutable
-class triglyLipid extends StatefulWidget {
+class AdminTcLipid extends StatefulWidget {
   //const AdminViewReportPatient({Key? key}) : super(key: key);
   var myObject;
-  triglyLipid({this.myObject});
+  AdminTcLipid({this.myObject});
   @override
-  _triglyLipidState createState() => _triglyLipidState();
+  _tcLipidState createState() => _tcLipidState();
 }
 
-class _triglyLipidState extends State<triglyLipid> {
+class _tcLipidState extends State<AdminTcLipid> {
+  int index = 1;
+
   late String tc;
   late String year;
   TooltipBehavior? _tooltip;
+  late String icPat = "";
 
   @override
   void initState() {
     super.initState();
+    fetchUser();
     initial();
+  }
+
+  late String icc = "";
+  void fetchUser() {
+    // do something
+    String ic = widget.myObject.toString();
+    setState(() {
+      icc = ic;
+    });
   }
 
   late SharedPreferences logindata;
 
   final List<ChartData> chartData = [];
+  final List<ChartData> chartData1 = [];
 
   void initial() async {
     logindata = await SharedPreferences.getInstance();
 
     QuerySnapshot snap = await FirebaseFirestore.instance
         .collection("lipidreport")
-        .where("ic", isEqualTo: logindata.getString('ic').toString())
+        .where("ic", isEqualTo: icc)
         .get();
 
     //double bmi1 = double.parse((snap.docs[0]['bmi']).toStringAsFixed(2));
 
     var now = DateTime.now();
     var formatterDate = DateFormat('dd/MM/yyyy');
-    // ignore: duplicate_ignore
-    // ignore: unused_local_variable
     String actualDate = formatterDate.format(now);
 
     double cal = 0;
@@ -60,14 +72,16 @@ class _triglyLipidState extends State<triglyLipid> {
     double percents1 = 0.0;
     String calPer = '';
     for (int i = 0; i < size; i++) {
-      temp = snap.docs[i]['trigly'];
+      temp = snap.docs[i]['tc'];
       tempYear = snap.docs[i]['date'];
       tc = temp;
       year = int.parse(tempYear.substring(6));
 
       chartData.add(ChartData(year, tc));
     }
+
     chartData.sort((a, b) => a.x.compareTo(b.x));
+
     _tooltip = TooltipBehavior(enable: true);
 
     setState(() {});
@@ -87,14 +101,14 @@ class _triglyLipidState extends State<triglyLipid> {
               1
             ],
             colors: [
-              Color.fromARGB(255, 5, 121, 40),
-              Color.fromARGB(255, 102, 255, 184),
+              Color(0xffff4000),
+              Color(0xffffcc66),
             ]),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Text("Triglycerides",
+          Text("Total Cholesterol $icc",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
@@ -112,7 +126,7 @@ class _triglyLipidState extends State<triglyLipid> {
                     dataSource: chartData,
                     xValueMapper: (ChartData data, _) => data.x,
                     yValueMapper: (ChartData data, _) => data.y,
-                    name: 'Trigly',
+                    name: 'TC',
                     color: const Color.fromRGBO(8, 142, 255, 1),
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
@@ -132,7 +146,7 @@ class _triglyLipidState extends State<triglyLipid> {
                   child: Text(
                     '*Information*',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w500,
                         color: Colors.black),
                   ),
@@ -159,12 +173,35 @@ class _triglyLipidState extends State<triglyLipid> {
                         LinearPercentIndicator(
                           width: 150.0,
                           center: const Text(
-                            '< 2.26',
+                            '< 5.2',
                             style: TextStyle(fontSize: 15),
                           ),
                           lineHeight: 20.0,
                           percent: 0.2,
                           progressColor: const Color.fromARGB(255, 54, 244, 86),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Intermediate Risk',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black),
+                          ),
+                        ),
+                        LinearPercentIndicator(
+                          center: const Text(
+                            '> 5.20 && <= 6.2',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          width: 150.0,
+                          lineHeight: 20.0,
+                          percent: 0.5,
+                          progressColor: Colors.orange,
                         ),
                         const SizedBox(
                           height: 10,
@@ -181,7 +218,7 @@ class _triglyLipidState extends State<triglyLipid> {
                         ),
                         LinearPercentIndicator(
                           center: const Text(
-                            '> 2.26',
+                            '> 6.2',
                             style: TextStyle(fontSize: 15),
                           ),
                           width: 150.0,

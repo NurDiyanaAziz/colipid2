@@ -1,4 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:colipid/pages/admin/adminHdlLipid.dart';
+import 'package:colipid/pages/admin/adminLdlLipid.dart';
+import 'package:colipid/pages/admin/adminTcLipid.dart';
+import 'package:colipid/pages/admin/adminTriglyLipid.dart';
 import 'package:colipid/pages/lipid_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +11,7 @@ import 'package:flutter/services.dart';
 import '../body_model.dart';
 import 'adminpatientmenu_page.dart';
 
+// ignore: must_be_immutable
 class AdminViewReportPatient extends StatefulWidget {
   //const AdminViewReportPatient({Key? key}) : super(key: key);
   var myObject;
@@ -45,16 +51,14 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
 
   Widget buildBackBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       height: 70,
       width: 100,
       child: ElevatedButton(
-     
         onPressed: () async {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => AdminUpdatePatient(myObject: icc)));
         },
-      
         child: Text(
           'Back',
           style: TextStyle(
@@ -80,11 +84,11 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
       .map((snapshot) =>
           snapshot.docs.map((doc) => BodyModel.fromJson(doc.data())).toList());
 
-  Widget buildReportUsers(LipidModel e) => Card(
+  Widget buildReportUserss(LipidModel e) => Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 4,
         shadowColor: Colors.black,
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: const Color.fromARGB(255, 255, 255, 255),
         child: SizedBox(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -93,16 +97,16 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
                 //SizedBox
                 Text(
                   e.date.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ), //Textstyle
                 ), //Text
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Text(
+                const Text(
                   '',
                   style: TextStyle(
                     fontSize: 30,
@@ -117,65 +121,65 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
                       children: [
                         Container(
                           child: Text(
-                            'TC: ' + e.tc.toString(),
-                            style: TextStyle(
+                            'TC: ${e.tc}',
+                            style: const TextStyle(
                               fontSize: 20,
                               color: Colors.black,
                             ), //Textstyle
                           ),
                         ),
                         Text(
-                          'HDL: ' + e.hdl.toString(),
-                          style: TextStyle(
+                          'HDL: ${e.hdl}',
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                         Text(
-                          'LDL: ' + e.tc.toString(),
-                          style: TextStyle(
+                          'LDL: ${e.tc}',
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                         Text(
-                          'Trigly: ' + e.trigly.toString(),
-                          style: TextStyle(
+                          'Trigly: ${e.trigly}',
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
                     Column(
                       children: [
                         Text(
                           e.tcstatus.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                         Text(
                           e.hdlstatus.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                         Text(
                           e.ldlstatus.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                         Text(
                           e.triglystatus.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
@@ -185,28 +189,28 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
                   ],
                 ),
 
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 SizedBox(
                   child: Text(
-                    'Doctor comment: ' + e.comment.toString(),
+                    'Doctor comment: ${e.comment}',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       color: Color.fromARGB(255, 29, 9, 83),
                     ), //Textstyle
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 SizedBox(
                   height: 30,
                   child: Text(
-                    'Doctor Name: ' + e.drname.toString(),
+                    'Doctor Name: ${e.drname}',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       color: Colors.black,
                     ), //Textstyle
@@ -218,11 +222,51 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
         ), //SizedBox
       );
 
+  List cardList = [
+    AdminTcLipid(),
+    AdminHdlLipid(),
+    AdminLdlLipid(),
+    AdminTriglyLipid()
+  ];
+  List<T> map<T>(List list, Function handler) {
+    List<T> result = [];
+    for (var i = 0; i < list.length; i++) {
+      result.add(handler(i, list[i]));
+    }
+    return result;
+  }
+
+  Widget buildReportUsers() => CarouselSlider(
+        options: CarouselOptions(
+          height: MediaQuery.of(context).size.height - 160,
+          autoPlay: true,
+          autoPlayInterval: const Duration(seconds: 12),
+          autoPlayAnimationDuration: const Duration(milliseconds: 3000),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          pauseAutoPlayOnTouch: true,
+          aspectRatio: 2.0,
+          onPageChanged: (index, reason) {
+            setState(() {});
+          },
+        ),
+        items: cardList.map((card) {
+          return Builder(builder: (BuildContext context) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.30,
+              width: MediaQuery.of(context).size.width,
+              child: Card(
+                child: card,
+              ),
+            );
+          });
+        }).toList(),
+      );
+
   Widget buildBodyReportUsers(BodyModel e) => Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 4,
         shadowColor: Colors.black,
-        color: Color.fromARGB(255, 255, 254, 254),
+        color: const Color.fromARGB(255, 255, 254, 254),
         child: SizedBox(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -231,16 +275,16 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
                 //SizedBox
                 Text(
                   e.date.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ), //Textstyle
                 ), //Text
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Text(
+                const Text(
                   '',
                   style: TextStyle(
                     fontSize: 30,
@@ -253,68 +297,63 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
                   children: [
                     Column(
                       children: [
-                        Container(
-                          child: Text(
-                            'Weight : ' + e.weight.toString(),
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                            ), //Textstyle
-                          ),
-                        ),
                         Text(
-                          'Height : ' + e.height.toString(),
-                          style: TextStyle(
+                          'Weight : ${e.weight}',
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                         Text(
-                          'BMI : ' +
-                              double.parse(e.bmi.toStringAsFixed(2)).toString(),
-                          style: TextStyle(
+                          'Height : ${e.height}',
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                         Text(
-                          'Waist : ' + e.waist.toString(),
-                          style: TextStyle(
+                          'BMI : ${double.parse(e.bmi.toStringAsFixed(2))}',
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                         Text(
-                          'Hip : ' + e.hip.toString(),
-                          style: TextStyle(
+                          'Waist : ${e.waist}',
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                         Text(
-                          'W/H Ratio: ' +
-                              double.parse(e.ratio.toStringAsFixed(2))
-                                  .toString(),
-                          style: TextStyle(
+                          'Hip : ${e.hip}',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          ), //Textstyle
+                        ),
+                        Text(
+                          'W/H Ratio: ${double.parse(e.ratio.toStringAsFixed(2))}',
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           ' ',
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
-                        Text(
+                        const Text(
                           ' ',
                           style: TextStyle(
                             fontSize: 20,
@@ -323,19 +362,19 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
                         ),
                         Text(
                           e.bmiStatus,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
-                        Text(
+                        const Text(
                           ' ',
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
                         ),
-                        Text(
+                        const Text(
                           '',
                           style: TextStyle(
                             fontSize: 20,
@@ -344,7 +383,7 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
                         ),
                         Text(
                           e.ratiostat.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black,
                           ), //Textstyle
@@ -354,7 +393,7 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
                   ],
                 ),
 
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
               ],
@@ -381,15 +420,24 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
 
   @override
   Widget build(BuildContext context) {
-    int index = 1;
-
-    final items = <Widget>[
-      const Icon(Icons.file_open, size: 30),
-      const Icon(Icons.home, size: 30),
-      const Icon(Icons.person, size: 30),
-    ];
-
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 196, 161, 149),
+        elevation: 0.0,
+        titleSpacing: 10.0,
+        centerTitle: true,
+        title: const Text('Patient Lipid Report'),
+        leading: InkWell(
+          onTap: () async {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => AdminUpdatePatient(myObject: icc)));
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black54,
+          ),
+        ),
+      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Stack(
@@ -408,84 +456,12 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
                   Color(0xffC4A195),
                 ],
               )),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      'Report',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20),
-                    buildBackBtn(),
-                    const SizedBox(height: 25),
-                    const SizedBox(
-                      height: 30,
-                      child: Text(
-                        'Lipid Report',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 400,
-                      child: StreamBuilder<List<LipidModel>>(
-                          stream: readLipidReport(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return Text(
-                                  'Something went wrong!: ${snapshot.error}');
-                            } else if (snapshot.hasData) {
-                              final users = snapshot.data!;
-
-                              return ListView(
-                                  children:
-                                      users.map(buildReportUsers).toList());
-                            } else {
-                              return Center(child: CircularProgressIndicator());
-                            }
-                          }),
-                    ),
-                    SizedBox(height: 25),
-                    const SizedBox(
-                      height: 30,
-                      child: Text(
-                        'Body Report',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 400,
-                      child: StreamBuilder<List<BodyModel>>(
-                          stream: readBodyReport(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return Text(
-                                  'Something went wrong!: ${snapshot.error}');
-                            } else if (snapshot.hasData) {
-                              final users = snapshot.data!;
-
-                              return ListView(
-                                  children:
-                                      users.map(buildBodyReportUsers).toList());
-                            } else {
-                              return Center(child: CircularProgressIndicator());
-                            }
-                          }),
-                    ),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  const SizedBox(height: 20),
+                  buildReportUsers()
+                ],
               ),
             )
           ],

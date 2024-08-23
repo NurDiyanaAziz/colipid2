@@ -1,17 +1,17 @@
 class BodyModel {
   String id;
-  String gender;
+
   double weight, height, hip, waist, bmi, ratio;
   String bmiStatus;
   String? time;
   String? date;
+  String? planReco;
   final String ic;
 
   String? ratiostat;
 
   BodyModel({
     this.id = '',
-    this.gender = '',
     this.weight = 0,
     this.height = 0,
     this.time = '',
@@ -23,6 +23,7 @@ class BodyModel {
     this.bmiStatus = '',
     required this.ic,
     this.ratiostat = '',
+    this.planReco = "", //eg:1800kcal
   });
   /*factory UserModel.fromMap(map) {
     return UserModel(
@@ -67,7 +68,6 @@ class BodyModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'gender': gender,
       'weight': weight,
       'height': height,
       'hip': hip,
@@ -79,22 +79,22 @@ class BodyModel {
       'ratioStat': ratiostat,
       'time': time,
       'date': date,
+      'planReco': planReco
     };
   }
 
   static BodyModel fromJson(Map<String, dynamic> json) => BodyModel(
-        id: json['id'],
-        gender: json['gender'],
-        ic: json['ic'],
-        weight: json['weight'],
-        height: json['height'],
-        hip: json['hip'],
-        waist: json['waist'],
-        bmi: json['bmi'],
-        bmiStatus: json['bmistatus'],
-        ratio: json['ratio'],
-        ratiostat: json['ratioStat'],
-        time: json['time'],
-        date: json['date'],
-      );
+      id: json['id'],
+      ic: json['ic'],
+      weight: json['weight'],
+      height: json['height'],
+      hip: json['hip'],
+      waist: json['waist'],
+      bmi: json['bmi'],
+      bmiStatus: json['bmistatus'],
+      ratio: json['ratio'],
+      ratiostat: json['ratioStat'],
+      time: json['time'],
+      date: json['date'],
+      planReco: json['planReco']);
 }

@@ -323,7 +323,6 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
                     buildPhoneNumber(),
                     const SizedBox(height: 20),
                     buildSubmitBtn(),
-                    Text(g),
                   ],
                 ),
               ),

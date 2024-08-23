@@ -3,10 +3,11 @@ class UserModel {
   String age;
   String id;
   String gender;
-  double weight, height, hip, waist, bmi, calorieNeeded, ratio;
+  double weight, height, hip, waist, bmi, ratio;
   String bmiStatus;
   String dob;
   String? allergic;
+  String? detailAllergy;
   String active;
   String? phone;
   String? usertype;
@@ -27,10 +28,10 @@ class UserModel {
     this.waist = 0,
     this.ratio = 0,
     this.bmi = 0,
-    this.calorieNeeded = 0,
     this.bmiStatus = '',
     this.dob = '',
     this.allergic = '',
+    this.detailAllergy = '',
     this.active = '',
     this.phone,
     required this.ic,
@@ -90,10 +91,10 @@ class UserModel {
       'hip': hip,
       'waist': waist,
       'bmi': bmi,
-      'calorieNeeded': calorieNeeded,
       'bmistatus': bmiStatus,
       'dob': dob,
       'allergic': allergic,
+      'detailAllergy': detailAllergy,
       'active': active,
       'phone': phone,
       'ic': ic,

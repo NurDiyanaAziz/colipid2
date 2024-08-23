@@ -55,6 +55,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
   double heightM = 0.0;
   String bmistat = '';
   String? hipwaistratio = '';
+  String? planReco = '';
   late bool _validate = false;
   bool _showTextField = false;
 
@@ -215,6 +216,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
               ]),
           height: 60,
           child: TextField(
+            enabled: false,
             controller: phone,
             keyboardType: TextInputType.number,
             onTapOutside: (PointerDownEvent event) {
@@ -332,13 +334,14 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
             String gend = snap.docs[0]['gender'].toString();
             //String gend = _characters.toString().substring(18);
             String aller = _character.toString().substring(17);
+            String detailAllergys = detailAllergy.text;
 
             heightM = heights / 100;
             bmi = weights / (heightM * heightM);
             if (bmi < 18.5) {
               bmistat = "underweight";
             } else if (bmi >= 18.5 && bmi <= 24.9) {
-              bmistat = "healthy weight";
+              bmistat = "normal";
             } else if (bmi >= 25.0 && bmi <= 29.9) {
               bmistat = "overweight";
             } else if (bmi >= 30) {
@@ -347,21 +350,37 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
 
             double whratio = waists / hips;
             if (gend == "Male") {
-              if (whratio <= 0.95) {
+              if (whratio < 0.9) {
                 hipwaistratio = "Low risk";
-              } else if (whratio > 0.95 && whratio <= 1.0) {
+              } else if (whratio >= 0.9 && whratio <= 1.0) {
                 hipwaistratio = "Moderate risk";
               } else if (whratio > 1.0) {
                 hipwaistratio = "High risk";
               }
             } else if (gend == "Female") {
-              if (whratio <= 0.80) {
+              if (whratio < 0.80) {
                 hipwaistratio = "Low risk";
-              } else if (whratio > 0.81 && whratio <= 0.85) {
+              } else if (whratio >= 0.80 && whratio <= 0.85) {
                 hipwaistratio = "Moderate risk";
-              } else if (whratio > 0.86) {
+              } else if (whratio > 0.85) {
                 hipwaistratio = "High risk";
               }
+            }
+
+            //plan Recommendation based on bmi and active type
+
+            String activeSelected = active.split('-')[0];
+            if ((bmistat == "obese" || bmistat == "overweight") &&
+                activeSelected == "Very Active") {
+              planReco = "2000kcal";
+            } else if ((bmistat == "obese" || bmistat == "overweight") &&
+                (activeSelected == "Lightly Active" ||
+                    activeSelected == "Moderately Active")) {
+              planReco = "1800kcal";
+            } else if (bmistat == "normal") {
+              planReco = "1800kcal";
+            } else if (bmistat == "underweight") {
+              planReco = "1500kcal";
             }
 
             final bodyprofile = BodyModel(
@@ -376,6 +395,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
               waist: waists,
               ratio: whratio,
               ratiostat: hipwaistratio,
+              planReco: planReco,
             );
             inputBody(bodyprofile);
 
@@ -383,9 +403,10 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
                 FirebaseFirestore.instance.collection('users').doc(id);
 
             docUser.update({
-              'active': active,
+              'active': activeSelected,
               'dob': dob.text,
               'allergic': aller,
+              'detailAllergy': detailAllergys,
               'bmi': bmi,
               'bmistatus': bmistat,
               'age': ages,
@@ -633,7 +654,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const Text(
-          'Have any food allergy?',
+          'Have any allergy?',
           style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),
         ),
         const SizedBox(height: 10),
@@ -676,29 +697,26 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
           ),
         ),
         if (_showTextField)
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: TextField(
-              controller: detailAllergy,
-              onTapOutside: (PointerDownEvent event) {
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
-              decoration: const InputDecoration(
-                filled: true,
-                fillColor: Color.fromARGB(255, 255, 255, 255),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.black),
-                ),
-                labelText: 'Please specify the allergy',
-                labelStyle: TextStyle(color: Colors.black, fontSize: 20),
-                hintStyle: const TextStyle(
-                  color: Colors.black, // Set the hint text color to black
-                ),
+          TextField(
+            controller: detailAllergy,
+            onTapOutside: (PointerDownEvent event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color.fromARGB(255, 255, 255, 255),
+              border: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black),
               ),
-              style: const TextStyle(
-                  color: Colors.black, fontSize: 20 // Set text color to black
-                  ),
+              labelText: 'Please specify the allergy',
+              labelStyle: TextStyle(color: Colors.black, fontSize: 20),
+              hintStyle: const TextStyle(
+                color: Colors.black, // Set the hint text color to black
+              ),
             ),
+            style: const TextStyle(
+                color: Colors.black, fontSize: 20 // Set text color to black
+                ),
           ),
       ],
     );
@@ -750,24 +768,21 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Flexible(
-                    child: Text(
-                      value,
-                      overflow: TextOverflow
-                          .visible, // Ensures the text will be truncated if it overflows
-                      softWrap:
-                          true, // Prevents text from wrapping to the next line
-                      style: TextStyle(
-                        color: value == dropdownValue
-                            ? const Color.fromARGB(255, 134, 98,
-                                86) // Highlight selected value with blue color
-                            : Colors
-                                .black, // Normal color for non-selected items
-                        fontWeight: value == dropdownValue
-                            ? FontWeight.bold // Bold the selected item
-                            : FontWeight
-                                .normal, // Normal weight for non-selected items
-                      ),
+                  child: Text(
+                    value,
+                    overflow: TextOverflow
+                        .visible, // Ensures the text will be truncated if it overflows
+                    softWrap:
+                        true, // Prevents text from wrapping to the next line
+                    style: TextStyle(
+                      color: value == dropdownValue
+                          ? const Color.fromARGB(255, 134, 98,
+                              86) // Highlight selected value with blue color
+                          : Colors.black, // Normal color for non-selected items
+                      fontWeight: value == dropdownValue
+                          ? FontWeight.bold // Bold the selected item
+                          : FontWeight
+                              .normal, // Normal weight for non-selected items
                     ),
                   ),
                 );

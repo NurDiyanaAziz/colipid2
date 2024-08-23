@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colipid/pages/admin/dialogs.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,12 +41,10 @@ class _AdminPatientMedicineState extends State<AdminPatientMedicine> {
       height: 70,
       width: 100,
       child: ElevatedButton(
-     
         onPressed: () async {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => AdminUpdatePatient(myObject: icc)));
         },
-        
         child: Text(
           'Back',
           style: TextStyle(
@@ -57,20 +56,20 @@ class _AdminPatientMedicineState extends State<AdminPatientMedicine> {
     );
   }
 
-  Widget buildText() {
-    return Container(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        alignment: Alignment.topLeft,
-        child: const Text(
-          'Does patient required statin?',
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        ));
+  Widget buildTitle(String text) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: AutoSizeText(
+        text,
+        minFontSize: 20,
+        maxFontSize: 25,
+        style: const TextStyle(color: Colors.black),
+      ),
+    );
   }
 
   Widget buildSwitchBtn() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
       alignment: Alignment.topLeft,
       child: CupertinoSwitch(
         value: isSwitched,
@@ -93,7 +92,9 @@ class _AdminPatientMedicineState extends State<AdminPatientMedicine> {
         const Text(
           'Type of Medicine',
           style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Color.fromARGB(255, 0, 0, 0),
+            fontSize: 20,
+          ),
         ),
         const SizedBox(height: 10),
         Container(
@@ -158,9 +159,8 @@ class _AdminPatientMedicineState extends State<AdminPatientMedicine> {
   Widget buildSubmitBtn() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      width: 100,
+      width: double.infinity,
       child: ElevatedButton(
-    
         onPressed: () async {
           final action = await Dialogs.yesAbortDialog(
               context, 'Confirm Submit?', 'Are you sure?');
@@ -187,7 +187,6 @@ class _AdminPatientMedicineState extends State<AdminPatientMedicine> {
                 builder: (context) => AdminUpdatePatient(myObject: icc)));
           }
         },
-     
         child: const Text(
           'Submit',
           style: TextStyle(
@@ -199,9 +198,28 @@ class _AdminPatientMedicineState extends State<AdminPatientMedicine> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 196, 161, 149),
+        elevation: 0.0,
+        titleSpacing: 10.0,
+        centerTitle: true,
+        title: const Text('Patient Medicine'),
+        leading: InkWell(
+          onTap: () async {
+            final action = await Dialogs.yesAbortDialog(
+                context, 'Confirm Discard?', 'Are you sure?');
+            if (action == DialogAction.yes) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => AdminUpdatePatient(myObject: icc)));
+            }
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black54,
+          ),
+        ),
+      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Stack(
@@ -222,21 +240,12 @@ class _AdminPatientMedicineState extends State<AdminPatientMedicine> {
               )),
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
-                      'Patient Medicine',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20),
-                    buildBackBtn(),
-                    const SizedBox(height: 15),
-                    buildText(),
+                    buildTitle("Does patient required statin?"),
                     buildSwitchBtn(),
                     const SizedBox(height: 15),
                     buildMedType(),

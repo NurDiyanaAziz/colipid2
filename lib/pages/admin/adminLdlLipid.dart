@@ -9,15 +9,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 // ignore: must_be_immutable
-class triglyLipid extends StatefulWidget {
+class AdminLdlLipid extends StatefulWidget {
   //const AdminViewReportPatient({Key? key}) : super(key: key);
   var myObject;
-  triglyLipid({this.myObject});
+  AdminLdlLipid({this.myObject});
   @override
-  _triglyLipidState createState() => _triglyLipidState();
+  _ldlLipidState createState() => _ldlLipidState();
 }
 
-class _triglyLipidState extends State<triglyLipid> {
+class _ldlLipidState extends State<AdminLdlLipid> {
   late String tc;
   late String year;
   TooltipBehavior? _tooltip;
@@ -44,8 +44,6 @@ class _triglyLipidState extends State<triglyLipid> {
 
     var now = DateTime.now();
     var formatterDate = DateFormat('dd/MM/yyyy');
-    // ignore: duplicate_ignore
-    // ignore: unused_local_variable
     String actualDate = formatterDate.format(now);
 
     double cal = 0;
@@ -60,7 +58,7 @@ class _triglyLipidState extends State<triglyLipid> {
     double percents1 = 0.0;
     String calPer = '';
     for (int i = 0; i < size; i++) {
-      temp = snap.docs[i]['trigly'];
+      temp = snap.docs[i]['ldl'];
       tempYear = snap.docs[i]['date'];
       tc = temp;
       year = int.parse(tempYear.substring(6));
@@ -87,38 +85,41 @@ class _triglyLipidState extends State<triglyLipid> {
               1
             ],
             colors: [
-              Color.fromARGB(255, 5, 121, 40),
-              Color.fromARGB(255, 102, 255, 184),
+              Color.fromARGB(255, 255, 0, 98),
+              Color.fromARGB(255, 209, 255, 102),
             ]),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Text("Triglycerides",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold)),
+          const Text(
+            "Low Density Lipoprotein" + '\n(Bad Cholesterol)',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 10),
           Center(
-              child: SfCartesianChart(
-                  backgroundColor: Colors.white,
-                  primaryXAxis: CategoryAxis(),
-                  primaryYAxis:
-                      NumericAxis(minimum: 0, maximum: 10, interval: 0.5),
-                  tooltipBehavior: _tooltip,
-                  series: <ChartSeries<ChartData, int>>[
+              child: Container(
+                  child: SfCartesianChart(
+                      backgroundColor: Colors.white,
+                      primaryXAxis: CategoryAxis(),
+                      primaryYAxis:
+                          NumericAxis(minimum: 0, maximum: 10, interval: 0.5),
+                      tooltipBehavior: _tooltip,
+                      series: <ChartSeries<ChartData, int>>[
                 ColumnSeries<ChartData, int>(
                     dataSource: chartData,
                     xValueMapper: (ChartData data, _) => data.x,
                     yValueMapper: (ChartData data, _) => data.y,
-                    name: 'Trigly',
+                    name: 'LDL',
                     color: const Color.fromRGBO(8, 142, 255, 1),
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                         textStyle: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.bold)))
-              ])),
+              ]))),
           const SizedBox(height: 10),
           Container(
             decoration: const BoxDecoration(
@@ -132,7 +133,7 @@ class _triglyLipidState extends State<triglyLipid> {
                   child: Text(
                     '*Information*',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w500,
                         color: Colors.black),
                   ),
@@ -159,12 +160,35 @@ class _triglyLipidState extends State<triglyLipid> {
                         LinearPercentIndicator(
                           width: 150.0,
                           center: const Text(
-                            '< 2.26',
+                            '< 2.6',
                             style: TextStyle(fontSize: 15),
                           ),
                           lineHeight: 20.0,
                           percent: 0.2,
                           progressColor: const Color.fromARGB(255, 54, 244, 86),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Intermediate Risk',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black),
+                          ),
+                        ),
+                        LinearPercentIndicator(
+                          center: const Text(
+                            '> 2.6 && < 4.1',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          width: 150.0,
+                          lineHeight: 20.0,
+                          percent: 0.5,
+                          progressColor: Colors.orange,
                         ),
                         const SizedBox(
                           height: 10,
@@ -181,7 +205,7 @@ class _triglyLipidState extends State<triglyLipid> {
                         ),
                         LinearPercentIndicator(
                           center: const Text(
-                            '> 2.26',
+                            '> 4.1',
                             style: TextStyle(fontSize: 15),
                           ),
                           width: 150.0,

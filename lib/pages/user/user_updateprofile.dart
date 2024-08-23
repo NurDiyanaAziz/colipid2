@@ -87,6 +87,8 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
   double bmiss = 0.0;
   String bmistat = '';
   String hipwaistratio = '';
+  double heightM = 0.0;
+  double bmi = 0.0;
 
   Widget buildBack() {
     return Row(
@@ -332,15 +334,16 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
             String gend = _characters.toString().substring(18);
             String aller = _character.toString().substring(17);
 
-            bmiss = weights / (heights * heights);
-            if (bmiss < 18.5) {
-              bmistat = "Underweight";
-            } else if (bmiss >= 18.5 && bmiss <= 24.9) {
-              bmistat = "Normal weight";
-            } else if (bmiss >= 25.0 && bmiss <= 29.9) {
-              bmistat = "Overweight";
-            } else if (bmiss >= 30) {
-              bmistat = "Obesity";
+            heightM = heights / 100;
+            bmi = weights / (heightM * heightM);
+            if (bmi < 18.5) {
+              bmistat = "underweight";
+            } else if (bmi >= 18.5 && bmi <= 24.9) {
+              bmistat = "normal";
+            } else if (bmi >= 25.0 && bmi <= 29.9) {
+              bmistat = "overweight";
+            } else if (bmi >= 30) {
+              bmistat = "obese";
             }
 
             double whratio = waists / hips;
@@ -374,7 +377,6 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
               waist: waists,
               ratio: whratio,
               ratiostat: hipwaistratio,
-              gender: gend,
             );
             inputBody(bodyprofile);
 
