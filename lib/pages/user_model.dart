@@ -13,7 +13,9 @@ class UserModel {
   String? usertype;
   final String ic;
   bool? med;
-
+  String? planReco;
+  String? lastUpdate;
+  String? lastUpdateTime;
   String? medname;
   String? ratiostat;
 
@@ -39,6 +41,9 @@ class UserModel {
     this.med = false,
     this.medname = '',
     this.ratiostat = '',
+    this.planReco = "",
+    this.lastUpdate = "",
+    this.lastUpdateTime = "",
   });
   /*factory UserModel.fromMap(map) {
     return UserModel(
@@ -103,6 +108,9 @@ class UserModel {
       'medname': medname,
       'ratio': ratio,
       'ratiostat': ratiostat,
+      'planReco': planReco,
+      'lastUpdate': lastUpdate,
+      'lastUpdateTime': lastUpdateTime
     };
   }
 

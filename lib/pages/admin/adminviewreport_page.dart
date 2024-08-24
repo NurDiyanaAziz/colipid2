@@ -7,6 +7,7 @@ import 'package:colipid/pages/admin/adminTriglyLipid.dart';
 import 'package:colipid/pages/lipid_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../body_model.dart';
 import 'adminpatientmenu_page.dart';
@@ -41,11 +42,14 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
   }
 
   late String icc = "";
-  void fetchUser() {
+
+  Future<void> fetchUser() async {
     // do something
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     String ic = widget.myObject.toString();
-    setState(() {
+    setState(() async {
       icc = ic;
+      await prefs.setString('patData', ic);
     });
   }
 
@@ -421,6 +425,7 @@ class _AdminViewReportPatientState extends State<AdminViewReportPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 196, 161, 149),
         elevation: 0.0,

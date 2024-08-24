@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -94,10 +95,10 @@ class _triglyLipidState extends State<triglyLipid> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Text("Triglycerides",
+          const AutoSizeText("Triglycerides",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           Center(
@@ -129,16 +130,13 @@ class _triglyLipidState extends State<triglyLipid> {
               children: [
                 const Align(
                   alignment: Alignment.topLeft,
-                  child: Text(
+                  child: AutoSizeText(
                     '*Information*',
+                    minFontSize: 14,
+                    maxFontSize: 25,
                     style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        fontWeight: FontWeight.w500, color: Colors.black),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 Align(
                   alignment: Alignment.topLeft,
@@ -148,39 +146,39 @@ class _triglyLipidState extends State<triglyLipid> {
                       children: <Widget>[
                         const Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
+                          child: AutoSizeText(
                             'Low Risk',
+                            minFontSize: 14,
+                            maxFontSize: 25,
                             style: TextStyle(
-                                fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black),
                           ),
                         ),
                         LinearPercentIndicator(
                           width: 150.0,
-                          center: const Text(
+                          center: const AutoSizeText(
                             '< 2.26',
-                            style: TextStyle(fontSize: 15),
+                            minFontSize: 14,
+                            maxFontSize: 25,
                           ),
                           lineHeight: 20.0,
                           percent: 0.2,
                           progressColor: const Color.fromARGB(255, 54, 244, 86),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         const Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
+                          child: AutoSizeText(
                             'High Risk',
+                            minFontSize: 14,
+                            maxFontSize: 25,
                             style: TextStyle(
-                                fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black),
                           ),
                         ),
                         LinearPercentIndicator(
-                          center: const Text(
+                          center: const AutoSizeText(
                             '> 2.26',
                             style: TextStyle(fontSize: 15),
                           ),

@@ -193,6 +193,7 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 196, 161, 149),
         elevation: 0.0,
@@ -204,7 +205,6 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
             final action = await Dialogs.yesAbortDialog(
                 context, 'Confirm Discard?', 'Are you sure?');
             if (action == DialogAction.yes) {
-              
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => const AdminMainScreen()));
             }
@@ -245,7 +245,6 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 134, 98, 86),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
-                      height: 250,
                       width: double.maxFinite,
                       child: Column(
                         children: [
@@ -284,13 +283,16 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                                       ))
                                 ],
                               ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Image.asset(
-                                  'images/admin4.png',
-                                  scale: 3,
+                              Flexible(
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Image.asset(
+                                    fit: BoxFit.scaleDown,
+                                    'images/admin4.png',
+                                    scale: 3,
+                                  ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                           InkWell(
@@ -307,7 +309,6 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 134, 98, 86),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
-                      height: 250,
                       width: double.maxFinite,
                       child: Column(
                         children: [
@@ -346,13 +347,15 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                                       ))
                                 ],
                               ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Image.asset(
-                                  'images/admin2.png',
-                                  scale: 3,
+                              Flexible(
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Image.asset(
+                                    'images/admin2.png',
+                                    scale: 3,
+                                  ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                           InkWell(
@@ -369,7 +372,6 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 134, 98, 86),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
-                      height: 250,
                       width: double.maxFinite,
                       child: Column(
                         children: [
@@ -408,13 +410,15 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                                       ))
                                 ],
                               ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Image.asset(
-                                  'images/admin3.png',
-                                  scale: 3,
+                              Flexible(
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Image.asset(
+                                    'images/admin3.png',
+                                    scale: 3,
+                                  ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                           InkWell(
@@ -431,7 +435,6 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 134, 98, 86),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
-                      height: 250,
                       width: double.maxFinite,
                       child: Column(
                         children: [
@@ -470,13 +473,15 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                                       ))
                                 ],
                               ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Image.asset(
-                                  'images/admin1.png',
-                                  scale: 3,
+                              Flexible(
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Image.asset(
+                                    'images/admin1.png',
+                                    scale: 3,
+                                  ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                           InkWell(

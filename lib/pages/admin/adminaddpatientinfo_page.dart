@@ -375,7 +375,8 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
               planReco = "2000kcal";
             } else if ((bmistat == "obese" || bmistat == "overweight") &&
                 (activeSelected == "Lightly Active" ||
-                    activeSelected == "Moderately Active")) {
+                    activeSelected == "Moderately Active" ||
+                    activeSelected == "Sedentary")) {
               planReco = "1800kcal";
             } else if (bmistat == "normal") {
               planReco = "1800kcal";
@@ -416,6 +417,9 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
               'hip': hips,
               'ratio': whratio,
               'ratiostat': hipwaistratio,
+              'planReco': planReco,
+              'lastUpdate': actualDate,
+              'lastUpdateTime': actualTime
             });
 
             /*DocumentReference documentReference =
@@ -794,7 +798,7 @@ class _AdminAddPatientInfoState extends State<AdminAddPatientInfo> {
 
   Widget buildTitle(String text) {
     return Align(
-      alignment: Alignment.topLeft,
+      alignment: Alignment.center,
       child: AutoSizeText(
         text,
         minFontSize: 20,

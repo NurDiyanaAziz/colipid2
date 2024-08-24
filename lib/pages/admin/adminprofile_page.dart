@@ -36,17 +36,17 @@ class _AdminProfileState extends State<AdminProfile> {
       padding: const EdgeInsets.symmetric(vertical: 25),
       width: double.infinity,
       child: ElevatedButton(
-        
         onPressed: () async {
           logindata.setBool('login', true);
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const LoginPageScreen()));
         },
-        
         child: const Text(
           'LOGOUT',
           style: TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              color: Color.fromARGB(255, 134, 98, 86),
+              fontSize: 18,
+              fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -54,8 +54,6 @@ class _AdminProfileState extends State<AdminProfile> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -77,14 +75,15 @@ class _AdminProfileState extends State<AdminProfile> {
               )),
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Text(
                       'Admin Profile & Settings',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 134, 98, 86),
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),

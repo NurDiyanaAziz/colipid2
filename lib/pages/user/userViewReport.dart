@@ -63,16 +63,14 @@ class _userViewReportState extends State<userViewReport> {
 
   Widget buildReportUsers() => CarouselSlider(
         options: CarouselOptions(
-          height: MediaQuery.of(context).size.height - 160,
+          height: MediaQuery.of(context).size.height,
           autoPlay: true,
           autoPlayInterval: const Duration(seconds: 12),
           autoPlayAnimationDuration: const Duration(milliseconds: 3000),
           autoPlayCurve: Curves.fastOutSlowIn,
           pauseAutoPlayOnTouch: true,
-          aspectRatio: 2.0,
           onPageChanged: (index, reason) {
-            setState(() {
-            });
+            setState(() {});
           },
         ),
         items: cardList.map((card) {
@@ -274,9 +272,8 @@ class _userViewReportState extends State<userViewReport> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 184, 184, 184),
         elevation: 0.0,
@@ -300,10 +297,14 @@ class _userViewReportState extends State<userViewReport> {
             Container(
               height: double.infinity,
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[buildReportUsers()],
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[buildReportUsers()],
+                  ),
+                ),
               ),
             ),
           ],

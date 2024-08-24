@@ -201,8 +201,7 @@ class _UserHealthMenuScreenState extends State<UserHealthMenuScreen> {
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Patient Info Menu',
-                    style: TextStyle(
-                        fontSize: 25, fontWeight: FontWeight.w300),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
                   ),
                 ),
                 const SizedBox(
@@ -215,15 +214,13 @@ class _UserHealthMenuScreenState extends State<UserHealthMenuScreen> {
                       padding: const EdgeInsets.all(15),
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 59, 139, 231),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(20))),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                       height: 250,
                       width: double.maxFinite,
                       child: Column(
                         children: [
                           Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -252,8 +249,7 @@ class _UserHealthMenuScreenState extends State<UserHealthMenuScreen> {
                                       child: const AutoSizeText(
                                         'Manage your latest body information here',
                                         style: TextStyle(
-                                            fontSize: 25,
-                                            color: Colors.white),
+                                            fontSize: 25, color: Colors.white),
                                         overflow: TextOverflow.visible,
                                       ))
                                 ],
@@ -269,8 +265,7 @@ class _UserHealthMenuScreenState extends State<UserHealthMenuScreen> {
                           ),
                           InkWell(
                             child: Container(
-                              padding:
-                                  const EdgeInsets.only(top: 5, bottom: 5),
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   color: const Color(0xFF54D159),
@@ -300,15 +295,13 @@ class _UserHealthMenuScreenState extends State<UserHealthMenuScreen> {
                       padding: const EdgeInsets.all(15),
                       decoration: const BoxDecoration(
                           color: Color(0xFFCC3E8A),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(20))),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                       height: 250,
                       width: double.maxFinite,
                       child: Column(
                         children: [
                           Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -337,8 +330,7 @@ class _UserHealthMenuScreenState extends State<UserHealthMenuScreen> {
                                       child: const AutoSizeText(
                                         'View your lipid report ',
                                         style: TextStyle(
-                                            fontSize: 25,
-                                            color: Colors.white),
+                                            fontSize: 25, color: Colors.white),
                                         overflow: TextOverflow.visible,
                                       ))
                                 ],
@@ -354,13 +346,12 @@ class _UserHealthMenuScreenState extends State<UserHealthMenuScreen> {
                           ),
                           InkWell(
                               child: Container(
-                                padding: const EdgeInsets.only(
-                                    top: 5, bottom: 5),
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                     color: const Color(0xFF54D159),
-                                    borderRadius:
-                                        BorderRadius.circular(20)),
+                                    borderRadius: BorderRadius.circular(20)),
                                 child: const Align(
                                   alignment: Alignment.center,
                                   child: Text(
@@ -385,16 +376,14 @@ class _UserHealthMenuScreenState extends State<UserHealthMenuScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            userViewReport()),
+                                        builder: (context) => userViewReport()),
                                   );
                                 } else {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                          duration:
-                                              const Duration(seconds: 2),
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          duration: const Duration(seconds: 2),
                                           content: Text(
-                                              "There's no health result yet")));
+                                              "There's no lipid result yet")));
                                 }
                               })
                         ],

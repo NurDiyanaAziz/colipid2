@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,8 @@ class _tcLipidState extends State<AdminTcLipid> {
   }
 
   late String icc = "";
-  void fetchUser() {
+  final String? patData = "g";
+  Future<void> fetchUser() async {
     // do something
     String ic = widget.myObject.toString();
     setState(() {
@@ -51,7 +53,7 @@ class _tcLipidState extends State<AdminTcLipid> {
 
     QuerySnapshot snap = await FirebaseFirestore.instance
         .collection("lipidreport")
-        .where("ic", isEqualTo: icc)
+        .where("ic", isEqualTo: logindata.getString('patData').toString())
         .get();
 
     //double bmi1 = double.parse((snap.docs[0]['bmi']).toStringAsFixed(2));
@@ -90,7 +92,7 @@ class _tcLipidState extends State<AdminTcLipid> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(25)),
         gradient: LinearGradient(
@@ -108,51 +110,48 @@ class _tcLipidState extends State<AdminTcLipid> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("Total Cholesterol $icc",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold)),
+          const AutoSizeText("Total Cholesterol",
+              minFontSize: 18,
+              maxFontSize: 25,
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           Center(
               child: SfCartesianChart(
-                  backgroundColor: Colors.white,
-                  primaryXAxis: CategoryAxis(),
-                  primaryYAxis:
-                      NumericAxis(minimum: 0, maximum: 10, interval: 0.5),
-                  tooltipBehavior: _tooltip,
-                  series: <ChartSeries<ChartData, int>>[
-                ColumnSeries<ChartData, int>(
-                    dataSource: chartData,
-                    xValueMapper: (ChartData data, _) => data.x,
-                    yValueMapper: (ChartData data, _) => data.y,
-                    name: 'TC',
-                    color: const Color.fromRGBO(8, 142, 255, 1),
-                    dataLabelSettings: const DataLabelSettings(
-                        isVisible: true,
-                        textStyle: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold)))
-              ])),
+            backgroundColor: Colors.white,
+            primaryXAxis: CategoryAxis(),
+            primaryYAxis: NumericAxis(minimum: 0, maximum: 10, interval: 1),
+            tooltipBehavior: _tooltip,
+            series: <ChartSeries<ChartData, int>>[
+              ColumnSeries<ChartData, int>(
+                  dataSource: chartData,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
+                  name: 'TC',
+                  color: const Color.fromRGBO(8, 142, 255, 1),
+                  dataLabelSettings: const DataLabelSettings(
+                      isVisible: true,
+                      textStyle:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)))
+            ],
+          )),
           const SizedBox(height: 10),
           Container(
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 214, 214, 214),
             ),
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.all(5),
             child: Column(
               children: [
                 const Align(
                   alignment: Alignment.topLeft,
-                  child: Text(
+                  child: AutoSizeText(
                     '*Information*',
+                    minFontSize: 14,
+                    maxFontSize: 25,
                     style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        fontWeight: FontWeight.w500, color: Colors.black),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 Align(
                   alignment: Alignment.topLeft,
@@ -162,49 +161,41 @@ class _tcLipidState extends State<AdminTcLipid> {
                       children: <Widget>[
                         const Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
+                          child: AutoSizeText(
                             'Low Risk',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
+                            minFontSize: 14,
+                            maxFontSize: 25,
                           ),
                         ),
                         LinearPercentIndicator(
                           width: 150.0,
-                          center: const Text(
+                          center: const AutoSizeText(
                             '< 5.2',
-                            style: TextStyle(fontSize: 15),
+                            minFontSize: 14,
+                            maxFontSize: 25,
                           ),
                           lineHeight: 20.0,
                           percent: 0.2,
                           progressColor: const Color.fromARGB(255, 54, 244, 86),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         const Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
+                          child: AutoSizeText(
                             'Intermediate Risk',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
+                            minFontSize: 14,
+                            maxFontSize: 25,
                           ),
                         ),
                         LinearPercentIndicator(
-                          center: const Text(
+                          center: const AutoSizeText(
                             '> 5.20 && <= 6.2',
-                            style: TextStyle(fontSize: 15),
+                            minFontSize: 14,
+                            maxFontSize: 25,
                           ),
                           width: 150.0,
                           lineHeight: 20.0,
                           percent: 0.5,
                           progressColor: Colors.orange,
-                        ),
-                        const SizedBox(
-                          height: 10,
                         ),
                         const Align(
                           alignment: Alignment.topLeft,

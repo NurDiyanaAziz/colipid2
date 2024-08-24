@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colipid/pages/loading.dart';
 import 'package:colipid/pages/user/usermain.dart';
@@ -8,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:flutter_session/flutter_session.dart';
 
 import 'admin/adminmain.dart';
-
 
 class LoginPageScreen extends StatefulWidget {
   const LoginPageScreen({Key? key}) : super(key: key);
@@ -123,10 +123,11 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text(
+        const AutoSizeText(
           'Phone Number',
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          minFontSize: 18,
+          maxFontSize: 25,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Container(
@@ -143,7 +144,10 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
               key: formKey,
               child: TextFormField(
                 keyboardType: TextInputType.number,
-                style: const TextStyle(color: Colors.black87, fontSize: 20),
+                onTapOutside: (PointerDownEvent event) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+                style: const TextStyle(color: Colors.black87, fontSize: 18),
                 decoration: const InputDecoration(
                   prefix: Padding(
                     padding: EdgeInsets.all(5),
@@ -213,58 +217,69 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
     return loading
         ? Loading()
         : Scaffold(
+            resizeToAvoidBottomInset: true,
             body: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.light,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 1),
-                  decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Color.fromRGBO(62, 151, 169, 0.4),
-                      Color(0x993e97a9),
-                      Color(0xcc3e97a9),
-                      Color(0xff3e97a9),
-                    ],
-                  )),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        child: Image.asset(
-                          'images/myLipid.png',
-                          width: 200,
-                          height: 200,
-                        ),
+              value: SystemUiOverlayStyle.light,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 20),
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color.fromRGBO(62, 151, 169, 0.4),
+                        Color(0x993e97a9),
+                        Color(0xcc3e97a9),
+                        Color(0xff3e97a9),
+                      ],
+                    )),
+                    child: SingleChildScrollView(
+                      physics: const RangeMaintainingScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const SizedBox(height: 50),
+                          SizedBox(
+                              child: Flexible(
+                            child: Image.asset(
+                              'images/myLipid.png',
+                              scale: 5,
+                            ),
+                          )),
+                          const AutoSizeText(
+                            'CoLipid',
+                            minFontSize: 20,
+                            maxFontSize: 25,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 20),
+                          buildPhoneNumber(),
+                          buildLoginBtn(),
+                          AutoSizeText(
+                            error,
+                            textAlign: TextAlign.right,
+                            minFontSize: 16,
+                            maxFontSize: 25,
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 223, 29, 15),
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
                       ),
-                      const Text(
-                        'CoLipid',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 20),
-                      buildPhoneNumber(),
-                      buildLoginBtn(),
-                      Text(
-                        error,
-                        textAlign: TextAlign.right,
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 223, 29, 15),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ));
+                ],
+              ),
+            ));
   }
 }

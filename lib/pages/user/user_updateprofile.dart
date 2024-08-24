@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colipid/pages/body_model.dart';
 import 'package:colipid/pages/user/usermain.dart';
@@ -56,10 +57,11 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
     double bmi1 = double.parse((snap.docs[0]['bmi']).toStringAsFixed(2));
 
     setState(() {
+      double heights = snap.docs[0]['height'] * 100;
       ics = logindata.getString('ic').toString();
       name.text = snap.docs[0]['fullname'].toString();
       weight.text = snap.docs[0]['weight'].toString();
-      height.text = snap.docs[0]['height'].toString();
+      height.text = heights.toString();
       phone.text = snap.docs[0]['phone'].toString();
       dob.text = snap.docs[0]['dob'].toString();
       age.text = snap.docs[0]['age'].toString();
@@ -73,7 +75,7 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
 
   SingingCharacters? _characters = SingingCharacters.Male;
   SingingCharacter? _character = SingingCharacter.No;
-  String dropdownValue = 'Sedentary';
+  String dropdownValue = 'Sedentary-(little or no exercise)';
 
   final name = TextEditingController();
   final phone = TextEditingController();
@@ -89,6 +91,7 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
   String hipwaistratio = '';
   double heightM = 0.0;
   double bmi = 0.0;
+  String? planReco = '';
 
   Widget buildBack() {
     return Row(
@@ -162,7 +165,7 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(5.0),
           child: Container(
             alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
@@ -269,7 +272,7 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(5.0),
             child: Container(
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
@@ -303,10 +306,10 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
   Widget buildSubmitBtn() {
     final ButtonStyle styles = ElevatedButton.styleFrom(
         textStyle: const TextStyle(fontSize: 20),
-        backgroundColor: Color(0xcc3e97a9));
+        backgroundColor: Color.fromARGB(204, 18, 50, 56));
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      width: 150,
+      width: double.infinity,
       child: ElevatedButton(
         style: styles,
         onPressed: () async {
@@ -331,8 +334,7 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
             double waists = double.parse(waist.text);
             double hips = double.parse(hip.text);
             String active = dropdownValue.toString();
-            String gend = _characters.toString().substring(18);
-            String aller = _character.toString().substring(17);
+            String gend = snap.docs[0]['gender'].toString();
 
             heightM = heights / 100;
             bmi = weights / (heightM * heightM);
@@ -348,35 +350,53 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
 
             double whratio = waists / hips;
             if (gend == "Male") {
-              if (whratio <= 0.95) {
+              if (whratio < 0.9) {
                 hipwaistratio = "Low risk";
-              } else if (whratio > 0.95 && whratio <= 1.0) {
+              } else if (whratio >= 0.9 && whratio <= 1.0) {
                 hipwaistratio = "Moderate risk";
               } else if (whratio > 1.0) {
                 hipwaistratio = "High risk";
               }
             } else if (gend == "Female") {
-              if (whratio <= 0.80) {
+              if (whratio < 0.80) {
                 hipwaistratio = "Low risk";
-              } else if (whratio > 0.81 && whratio <= 0.85) {
+              } else if (whratio >= 0.80 && whratio <= 0.85) {
                 hipwaistratio = "Moderate risk";
-              } else if (whratio > 0.86) {
+              } else if (whratio > 0.85) {
                 hipwaistratio = "High risk";
               }
+            }
+
+            //plan Recommendation based on bmi and active type
+
+            String activeSelected = active.split('-')[0];
+            if ((bmistat == "obese" || bmistat == "overweight") &&
+                activeSelected == "Very Active") {
+              planReco = "2000kcal";
+            } else if ((bmistat == "obese" || bmistat == "overweight") &&
+                (activeSelected == "Lightly Active" ||
+                    activeSelected == "Moderately Active" ||
+                    activeSelected == "Sedentary")) {
+              planReco = "1800kcal";
+            } else if (bmistat == "normal") {
+              planReco = "1800kcal";
+            } else if (bmistat == "underweight") {
+              planReco = "1500kcal";
             }
 
             final bodyprofile = BodyModel(
               ic: logindata.getString('ic').toString(),
               date: actualDate,
               time: actualTime,
-              bmi: bmiss,
+              bmi: bmi,
               bmiStatus: bmistat,
               weight: weights,
-              height: heights,
+              height: heightM,
               hip: hips,
               waist: waists,
               ratio: whratio,
               ratiostat: hipwaistratio,
+              planReco: planReco,
             );
             inputBody(bodyprofile);
 
@@ -384,19 +404,20 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
                 FirebaseFirestore.instance.collection('users').doc(id);
 
             docUser.update({
-              'active': active,
+              'active': activeSelected,
               'dob': dob.text,
-              'allergic': aller,
-              'bmi': bmiss,
-              'gender': gend,
+              'bmi': bmi,
               'bmistatus': bmistat,
               'age': ages,
-              'height': heights,
+              'height': heightM,
               'weight': weights,
               'waist': waists,
               'hip': hips,
               'ratio': whratio,
               'ratiostat': hipwaistratio,
+              'planReco': planReco,
+              'lastUpdate': actualDate,
+              'lastUpdateTime': actualTime
             });
 
             Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -437,15 +458,23 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
             child: TextField(
               controller: weight,
               keyboardType: TextInputType.number,
+              onTapOutside: (PointerDownEvent event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               style: const TextStyle(color: Colors.black87),
-              decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon:
-                      Icon(Icons.monitor_weight, color: Color(0x663e97a9)),
-                  hintText: 'Weight in kg',
-                  hintStyle: TextStyle(color: Colors.black38),
-                  suffixText: 'kg'),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.only(top: 14),
+                prefixIcon:
+                    const Icon(Icons.monitor_weight, color: Color(0x663e97a9)),
+                hintText: 'Weight in kg',
+                hintStyle: const TextStyle(color: Colors.black38),
+                suffixText: 'kg',
+                suffixIcon: IconButton(
+                  onPressed: weight.clear,
+                  icon: const Icon(Icons.clear),
+                ),
+              ),
             ),
           ),
         )),
@@ -468,17 +497,25 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
                   child: TextField(
                     controller: height,
                     keyboardType: TextInputType.number,
+                    onTapOutside: (PointerDownEvent event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
                     style: const TextStyle(color: Colors.black87),
-                    decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(top: 14),
-                        prefixIcon:
-                            Icon(Icons.height, color: Color(0x663e97a9)),
-                        hintText: 'Height in meter',
-                        hintStyle: TextStyle(color: Colors.black38),
-                        suffix: Text(
-                          'm',
-                        )),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.only(top: 14),
+                      prefixIcon:
+                          const Icon(Icons.height, color: Color(0x663e97a9)),
+                      hintText: 'Height in cm',
+                      hintStyle: const TextStyle(color: Colors.black38),
+                      suffix: const Text(
+                        'cm',
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: height.clear,
+                        icon: const Icon(Icons.clear),
+                      ),
+                    ),
                   ),
                 )))
       ],
@@ -506,15 +543,23 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
             child: TextField(
               controller: waist,
               keyboardType: TextInputType.number,
+              onTapOutside: (PointerDownEvent event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               style: const TextStyle(color: Colors.black87),
-              decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14, left: 20),
-                  hintText: 'Waist in cm',
-                  hintStyle: TextStyle(color: Colors.black38),
-                  suffix: Text(
-                    'cm',
-                  )),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.only(top: 14, left: 20),
+                hintText: 'Waist in cm',
+                hintStyle: const TextStyle(color: Colors.black38),
+                suffix: const Text(
+                  'cm',
+                ),
+                suffixIcon: IconButton(
+                  onPressed: waist.clear,
+                  icon: const Icon(Icons.clear),
+                ),
+              ),
             ),
           ),
         )),
@@ -537,15 +582,23 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
                   child: TextField(
                     controller: hip,
                     keyboardType: TextInputType.number,
+                    onTapOutside: (PointerDownEvent event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
                     style: const TextStyle(color: Colors.black87),
-                    decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(left: 20),
-                        hintText: 'Hip in cm',
-                        hintStyle: TextStyle(color: Colors.black38),
-                        suffix: Text(
-                          'cm',
-                        )),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.only(top: 10, left: 20),
+                      hintText: 'Hip in cm',
+                      hintStyle: const TextStyle(color: Colors.black38),
+                      suffix: const Text(
+                        'cm',
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: hip.clear,
+                        icon: const Icon(Icons.clear),
+                      ),
+                    ),
                   ),
                 )))
       ],
@@ -566,9 +619,9 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
               Text(
                 "Waist(cm)",
                 style: TextStyle(
-                    fontSize: 16.0,
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    fontWeight: FontWeight.w600),
+                  fontSize: 16.0,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
               ),
             ]),
           ),
@@ -583,9 +636,50 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
                     Text(
                       "Hip(cm)",
                       style: TextStyle(
-                          fontSize: 16.0,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontWeight: FontWeight.w600),
+                        fontSize: 16.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ]),
+                )))
+      ],
+    );
+  }
+
+  Widget buildWeightHeightLabel() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Flexible(
+            child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Container(
+            alignment: Alignment.centerLeft,
+            width: 180,
+            child: const Column(children: [
+              Text(
+                "Weight(kg)",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+              ),
+            ]),
+          ),
+        )),
+        Flexible(
+            child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  width: 180,
+                  child: const Column(children: [
+                    Text(
+                      "Height(cm)",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ]),
                 )))
@@ -701,15 +795,12 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
       children: <Widget>[
         const Text(
           'How Active Are You',
-          style: TextStyle(
-              color: Color.fromARGB(255, 0, 0, 0),
-              fontSize: 20,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17),
         ),
         const SizedBox(height: 10),
         Container(
             padding: const EdgeInsets.all(15.0),
-            width: 200,
+            width: double.infinity,
             alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -720,31 +811,63 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
                       blurRadius: 6,
                       offset: Offset(0, 2))
                 ]),
-            height: 80,
+            height: 90,
             child: DropdownButton<String>(
               value: dropdownValue,
               icon: const Icon(Icons.arrow_downward),
-              elevation: 16,
+              isExpanded: true,
+              elevation: 2,
               style: const TextStyle(
-                  color: Color.fromARGB(255, 92, 57, 4), fontSize: 18),
-              underline: Container(
-                height: 2,
-                color: const Color.fromARGB(255, 128, 101, 14),
-              ),
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  fontSize: 18,
+                  letterSpacing: 1,
+                  overflow: TextOverflow.visible),
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue!;
                 });
               },
-              items: <String>['Sedentary', 'Moderately Active', 'Active']
-                  .map<DropdownMenuItem<String>>((String value) {
+              items: <String>[
+                'Sedentary-(little or no exercise)',
+                'Lightly Active-(light exercise/sports 1-3 days/week)',
+                'Moderately Active-(moderate exercise/sports 3-5 days/week)',
+                'Very Active-(hard exercise/sports 6-7 days a week)'
+              ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: Text(
+                    value,
+                    overflow: TextOverflow
+                        .visible, // Ensures the text will be truncated if it overflows
+                    softWrap:
+                        true, // Prevents text from wrapping to the next line
+                    style: TextStyle(
+                      color: value == dropdownValue
+                          ? const Color.fromARGB(255, 62, 151,
+                              169) // Highlight selected value with blue color
+                          : Colors.black, // Normal color for non-selected items
+                      fontWeight: value == dropdownValue
+                          ? FontWeight.bold // Bold the selected item
+                          : FontWeight
+                              .normal, // Normal weight for non-selected items
+                    ),
+                  ),
                 );
               }).toList(),
             ))
       ],
+    );
+  }
+
+  Widget buildTitle(String text) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: AutoSizeText(
+        text,
+        minFontSize: 16,
+        maxFontSize: 25,
+        style: const TextStyle(color: Colors.black),
+      ),
     );
   }
 
@@ -780,15 +903,30 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
             Container(
               height: double.infinity,
               width: double.infinity,
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color(0x663e97a9),
+                  Color(0x993e97a9),
+                  Color(0xcc3e97a9),
+                  Color(0xff3e97a9),
+                ],
+              )),
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    buildTitle("Name"),
                     buildName(),
+                    buildTitle("Age"),
                     buildAge(),
+                    const SizedBox(height: 15),
+                    buildWeightHeightLabel(),
                     buildWeightHeight(),
                     const SizedBox(height: 20),
                     buildWaistHipLabel(),

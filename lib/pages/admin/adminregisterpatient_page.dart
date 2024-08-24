@@ -1,5 +1,6 @@
 import 'package:age_calculator/age_calculator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:colipid/pages/admin/dialogs.dart';
 import 'package:colipid/pages/lipid_model.dart';
 import 'package:colipid/pages/patientlist_model.dart';
 import 'package:colipid/pages/user_model.dart';
@@ -51,8 +52,12 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
       width: 100,
       child: ElevatedButton(
         onPressed: () async {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const AdminMainScreen()));
+          final action = await Dialogs.yesAbortDialog(
+              context, 'Confirm Discard?', 'Are you sure?');
+          if (action == DialogAction.yes) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const AdminMainScreen()));
+          }
         },
         child: Text(
           'Back',
@@ -72,7 +77,9 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
         const Text(
           'Patient Name',
           style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              color: Color.fromARGB(255, 134, 98, 86),
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Container(
@@ -107,14 +114,16 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
         Text(
           'Gender',
           style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              color: Color.fromARGB(255, 134, 98, 86),
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10),
         ListTile(
           title: const Text('Male',
               style: TextStyle(
                   fontSize: 20.0,
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 134, 98, 86),
                   fontWeight: FontWeight.w600)),
           leading: Radio<SingingCharacters>(
             value: SingingCharacters.Male,
@@ -131,7 +140,7 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
           title: const Text('Female',
               style: TextStyle(
                   fontSize: 20.0,
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 134, 98, 86),
                   fontWeight: FontWeight.w600)),
           leading: Radio<SingingCharacters>(
             value: SingingCharacters.Female,
@@ -155,7 +164,9 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
         const Text(
           'Patient IC',
           style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              color: Color.fromARGB(255, 134, 98, 86),
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Container(
@@ -191,7 +202,9 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
         const Text(
           'Phone Number',
           style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              color: Color.fromARGB(255, 134, 98, 86),
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Container(
@@ -279,6 +292,27 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 196, 161, 149),
+        elevation: 0.0,
+        titleSpacing: 10.0,
+        centerTitle: true,
+        title: const Text('Register New Patient'),
+        leading: InkWell(
+          onTap: () async {
+            final action = await Dialogs.yesAbortDialog(
+                context, 'Confirm Discard?', 'Are you sure?');
+            if (action == DialogAction.yes) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const AdminMainScreen()));
+            }
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black54,
+          ),
+        ),
+      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Stack(
@@ -300,20 +334,10 @@ class _AdminRegisterPatientState extends State<AdminRegisterPatient> {
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
-                      'Register New Patient',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20),
-                    buildBackBtn(),
-                    const SizedBox(height: 50),
                     buildName(),
                     const SizedBox(height: 20),
                     buildGender(),

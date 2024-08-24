@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable, must_be_immutable, prefer_typing_uninitialized_variables
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colipid/pages/meal_model.dart';
 import 'package:colipid/pages/user/menudetail_page.dart';
@@ -134,9 +135,8 @@ class _ChooseMealState extends State<ChooseMeal> {
                   ]),
               height: 40,
               child: TextField(
-                //enabled: false,
                 controller: pref,
-                keyboardType: TextInputType.name,
+                readOnly: true,
                 style: const TextStyle(color: Colors.black87),
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -702,15 +702,17 @@ class _ChooseMealState extends State<ChooseMeal> {
                     indicatorWeight: 3,
                     unselectedLabelColor: Color.fromARGB(255, 131, 131, 131),
                     tabs: [
-                      Text(
-                        "Menu Plan",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      AutoSizeText(
+                        "Meal Plan",
+                        minFontSize: 18,
+                        maxFontSize: 25,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(
+                      AutoSizeText(
                         "Recommendation",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                        minFontSize: 18,
+                        maxFontSize: 25,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
                   ),

@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _ldlLipidState extends State<AdminLdlLipid> {
 
     QuerySnapshot snap = await FirebaseFirestore.instance
         .collection("lipidreport")
-        .where("ic", isEqualTo: logindata.getString('ic').toString())
+        .where("ic", isEqualTo: logindata.getString('patData').toString())
         .get();
 
     //double bmi1 = double.parse((snap.docs[0]['bmi']).toStringAsFixed(2));
@@ -74,6 +75,8 @@ class _ldlLipidState extends State<AdminLdlLipid> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
+      height: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -125,21 +128,18 @@ class _ldlLipidState extends State<AdminLdlLipid> {
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 214, 214, 214),
             ),
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.all(5),
             child: Column(
               children: [
                 const Align(
                   alignment: Alignment.topLeft,
-                  child: Text(
+                  child: AutoSizeText(
                     '*Information*',
+                    minFontSize: 14,
+                    maxFontSize: 25,
                     style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        fontWeight: FontWeight.w500, color: Colors.black),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 Align(
                   alignment: Alignment.topLeft,
@@ -149,64 +149,64 @@ class _ldlLipidState extends State<AdminLdlLipid> {
                       children: <Widget>[
                         const Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
+                          child: AutoSizeText(
                             'Low Risk',
+                            minFontSize: 14,
+                            maxFontSize: 25,
                             style: TextStyle(
-                                fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black),
                           ),
                         ),
                         LinearPercentIndicator(
                           width: 150.0,
-                          center: const Text(
+                          center: const AutoSizeText(
                             '< 2.6',
-                            style: TextStyle(fontSize: 15),
+                            minFontSize: 14,
+                            maxFontSize: 25,
                           ),
                           lineHeight: 20.0,
                           percent: 0.2,
                           progressColor: const Color.fromARGB(255, 54, 244, 86),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         const Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
+                          child: AutoSizeText(
                             'Intermediate Risk',
+                            minFontSize: 14,
+                            maxFontSize: 25,
                             style: TextStyle(
-                                fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black),
                           ),
                         ),
                         LinearPercentIndicator(
-                          center: const Text(
+                          center: const AutoSizeText(
                             '> 2.6 && < 4.1',
-                            style: TextStyle(fontSize: 15),
+                            minFontSize: 14,
+                            maxFontSize: 25,
                           ),
                           width: 150.0,
                           lineHeight: 20.0,
                           percent: 0.5,
                           progressColor: Colors.orange,
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         const Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
+                          child: AutoSizeText(
                             'High Risk',
+                            minFontSize: 14,
+                            maxFontSize: 25,
                             style: TextStyle(
-                                fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black),
                           ),
                         ),
                         LinearPercentIndicator(
-                          center: const Text(
+                          center: const AutoSizeText(
                             '> 4.1',
-                            style: TextStyle(fontSize: 15),
+                            minFontSize: 14,
+                            maxFontSize: 25,
                           ),
                           width: 150.0,
                           lineHeight: 20.0,

@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colipid/pages/exercise_model.dart';
 import 'package:colipid/pages/exercisetaken_model.dart';
@@ -119,7 +120,8 @@ class _ChooseExerciseState extends State<ChooseExercise> {
               child: TextField(
                 //enabled: false,
                 controller: pref,
-                keyboardType: TextInputType.name,
+                readOnly: true,
+
                 style: const TextStyle(color: Colors.black87),
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -784,15 +786,17 @@ class _ChooseExerciseState extends State<ChooseExercise> {
                     indicatorWeight: 3,
                     unselectedLabelColor: Color.fromARGB(255, 131, 131, 131),
                     tabs: [
-                      Text(
+                      AutoSizeText(
                         "Exercise",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                        minFontSize: 18,
+                        maxFontSize: 25,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(
+                      AutoSizeText(
                         "Recommendation",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                        minFontSize: 18,
+                        maxFontSize: 25,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
                   ),

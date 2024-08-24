@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colipid/pages/user/chooseexercise.dart';
 import 'package:colipid/pages/user/viewexercise.dart';
@@ -30,6 +31,7 @@ class _UserHomePageState extends State<UserHomePage> {
   late String bmi;
   late String bmistat;
   late String whratiostat;
+  late String planReco;
 
   late SharedPreferences logindata;
 
@@ -46,10 +48,12 @@ class _UserHomePageState extends State<UserHomePage> {
     bmi = '';
     bmistat = '';
     whratiostat = '';
+    planReco = '';
 
     initial();
     initialProfile();
     initialPercent();
+    //initialPlanMeal();
   }
 
   void configLoading() {
@@ -82,6 +86,19 @@ class _UserHomePageState extends State<UserHomePage> {
     });
   }
 
+  initialPlanMeal() async {
+    logindata = await SharedPreferences.getInstance();
+    QuerySnapshot snaps = await FirebaseFirestore.instance
+        .collection("bodyreport")
+        .where("ic", isEqualTo: logindata.getString('ic').toString())
+        .orderBy("date", descending: true)
+        .get();
+
+    setState(() {
+      planReco = snaps.docs[0]['ic'].toString();
+    });
+  }
+
   initialProfile() async {
     logindata = await SharedPreferences.getInstance();
     QuerySnapshot snap = await FirebaseFirestore.instance
@@ -95,6 +112,7 @@ class _UserHomePageState extends State<UserHomePage> {
       bmi = snap.docs[0]['bmi'].toStringAsFixed(2);
       bmistat = snap.docs[0]['bmistatus'].toString();
       whratiostat = snap.docs[0]['ratiostat'].toString();
+      planReco = snap.docs[0]['planReco'].toString();
     });
   }
 
@@ -154,6 +172,18 @@ class _UserHomePageState extends State<UserHomePage> {
     });
   }
 
+  Widget buildTitle(String text) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: AutoSizeText(
+        text,
+        minFontSize: 20,
+        maxFontSize: 25,
+        style: const TextStyle(color: Colors.black),
+      ),
+    );
+  }
+
   Future openDialogMenu() => showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -161,44 +191,42 @@ class _UserHomePageState extends State<UserHomePage> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0)), //this right here
           child: Container(
-            height: 600,
-            child: Padding(
-              padding: const EdgeInsets.all(1.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TextField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20),
-                    decoration: InputDecoration(
-                        border: InputBorder.none, hintText: 'Meal'),
-                  ),
+            width: 300.0,
+            height: 300, // Set the desired width
+            padding: const EdgeInsets.all(16.0), // Add some padding for spacing
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildTitle("Recommended plan meal "),
+                if (planReco == "1500kcal") ...[
                   SizedBox(
                     width: 300.0,
-                    height: 100,
                     child: TextButton.icon(
-                        icon: Image.asset(
-                          "images/1.png",
-                          scale: 2,
-                        ),
-                        label: const Text(
-                          "1500KCAL",
-                          style: TextStyle(color: Colors.black, fontSize: 17),
-                        ),
-                        onPressed: () {
-                          // call method
-                          String word = "1500kcal";
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                                  builder: (context) => ChooseMeal(
-                                        myObject: word,
-                                      )));
-                        }),
+                      icon: Image.asset(
+                        "images/1.png",
+                        scale: 2,
+                      ),
+                      label: const Text(
+                        "1500KCAL",
+                        style: TextStyle(color: Colors.black, fontSize: 17),
+                      ),
+                      onPressed: () {
+                        String word = "1500kcal";
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => ChooseMeal(
+                              myObject: word,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
+                ],
+                if (planReco == "1800kcal") ...[
                   SizedBox(
                     width: 300.0,
-                    height: 100,
                     child: TextButton.icon(
                       icon: Image.asset(
                         "images/2.png",
@@ -218,9 +246,10 @@ class _UserHomePageState extends State<UserHomePage> {
                       },
                     ),
                   ),
+                ],
+                if (planReco == "2000kcal") ...[
                   SizedBox(
                     width: 300.0,
-                    height: 100,
                     child: TextButton.icon(
                       icon: Image.asset(
                         "images/3.png",
@@ -240,27 +269,26 @@ class _UserHomePageState extends State<UserHomePage> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    width: 300.0,
-                    height: 100,
-                    child: TextButton.icon(
-                      icon: Image.asset(
-                        "images/meal.png",
-                        scale: 2,
-                      ),
-                      label: const Text(
-                        "View Meal Taken",
-                        style: TextStyle(color: Colors.black, fontSize: 17),
-                      ),
-                      onPressed: () {
-                        // call method
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => userViewMealTaken()));
-                      },
-                    ),
-                  ),
                 ],
-              ),
+                SizedBox(
+                  width: 300.0,
+                  child: TextButton.icon(
+                    icon: Image.asset(
+                      "images/meal.png",
+                      scale: 2,
+                    ),
+                    label: const Text(
+                      "View Meal Taken",
+                      style: TextStyle(color: Colors.black, fontSize: 17),
+                    ),
+                    onPressed: () {
+                      // call method
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => userViewMealTaken()));
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -356,8 +384,7 @@ class _UserHomePageState extends State<UserHomePage> {
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -377,7 +404,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'Welcome',
+                        'Welcome ',
                         style: TextStyle(
                             fontSize: 19, fontWeight: FontWeight.w400),
                       ),
@@ -498,7 +525,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     ),
                     const SizedBox(height: 20),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
                           child: Container(
