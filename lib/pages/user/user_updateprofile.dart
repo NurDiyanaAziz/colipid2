@@ -57,11 +57,10 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
     double bmi1 = double.parse((snap.docs[0]['bmi']).toStringAsFixed(2));
 
     setState(() {
-      double heights = snap.docs[0]['height'] * 100;
       ics = logindata.getString('ic').toString();
       name.text = snap.docs[0]['fullname'].toString();
       weight.text = snap.docs[0]['weight'].toString();
-      height.text = heights.toString();
+      height.text = snap.docs[0]['height'].toString();
       phone.text = snap.docs[0]['phone'].toString();
       dob.text = snap.docs[0]['dob'].toString();
       age.text = snap.docs[0]['age'].toString();
@@ -391,7 +390,7 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
               bmi: bmi,
               bmiStatus: bmistat,
               weight: weights,
-              height: heightM,
+              height: heights,
               hip: hips,
               waist: waists,
               ratio: whratio,
@@ -409,7 +408,7 @@ class _UserUpdateInfoState extends State<UserUpdateInfo> {
               'bmi': bmi,
               'bmistatus': bmistat,
               'age': ages,
-              'height': heightM,
+              'height': heights,
               'weight': weights,
               'waist': waists,
               'hip': hips,
